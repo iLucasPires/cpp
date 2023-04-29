@@ -1,9 +1,9 @@
 NAME = megaphone
 
-BUILD_DIR = build
+BIN_DIR = bin
 
 SRCS = megaphone.cpp
-BUILD_OBJS = $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
+BUILD_OBJS = $(SRCS:%.cpp=$(BIN_DIR)/%.o)
 
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
@@ -14,8 +14,8 @@ $(NAME): $(BUILD_OBJS)
 	@c++ $(CFLAGS) $(BUILD_OBJS) -o $@
 	@echo "link $@"
 
-$(BUILD_DIR)/%.o: %.cpp
-	@mkdir -p $(BUILD_DIR)
+$(BIN_DIR)/%.o: %.cpp
+	@mkdir -p $(BIN_DIR)
 	@c++ $(CFLAGS) -c $< -o $@
 	@echo "compile $<"
 
@@ -24,7 +24,7 @@ clean:
 	@echo "clean"
 
 fclean: clean
-	@rm -rf $(BUILD_DIR)
+	@rm -rf $(BIN_DIR)
 	@rm -f $(NAME) $(BUILD_OBJS)
 	@echo "fclean"
 

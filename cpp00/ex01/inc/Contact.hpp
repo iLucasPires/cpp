@@ -1,31 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megaphone.cpp                                      :+:      :+:    :+:   */
+/*   Contact.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 22:15:08 by lucas             #+#    #+#             */
-/*   Updated: 2023/04/25 22:15:08 by lucas            ###   ########.fr       */
+/*   Created: 2023/04/26 21:54:28 by lucas             #+#    #+#             */
+/*   Updated: 2023/04/27 21:43:02 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#ifndef CONTACT_HPP
+#define CONTACT_HPP
 
-int main(int argc, char const *argv[])
+#define INFO_SIZE 5
+
+enum
 {
-    if (argc == 1)
-    {
-        std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
-        return (0);
-    }
-    for (int i = 1; i < argc; i++)
-    {
-        for (int j = 0; argv[i][j]; j++)
-        {
-            std::cout << (char)std::toupper(argv[i][j]);
-        }
-    }
-    std::cout << std::endl;
-    return (0);
-}
+    FIRST_NAME,
+    LAST_NAME,
+    NICKNAME,
+    PHONE_NUMBER,
+    DARKEST_SECRET
+};
+
+class Contact
+{
+    public:
+        Contact(void);
+        ~Contact(void);
+
+        std::string getInfo(int index);
+        void setInfo(std::string info[INFO_SIZE]);
+
+    private:
+        bool _is_empty;
+        std::string _info[INFO_SIZE];
+};
+
+#endif

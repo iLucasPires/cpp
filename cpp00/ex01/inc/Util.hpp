@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megaphone.cpp                                      :+:      :+:    :+:   */
+/*   Util.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 22:15:08 by lucas             #+#    #+#             */
-/*   Updated: 2023/04/25 22:15:08 by lucas            ###   ########.fr       */
+/*   Created: 2023/04/27 21:26:12 by lucas             #+#    #+#             */
+/*   Updated: 2023/04/29 14:02:27 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#ifndef UTIL_HPP
+#define UTIL_HPP
 
-int main(int argc, char const *argv[])
+class Util
 {
-    if (argc == 1)
-    {
-        std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
-        return (0);
-    }
-    for (int i = 1; i < argc; i++)
-    {
-        for (int j = 0; argv[i][j]; j++)
-        {
-            std::cout << (char)std::toupper(argv[i][j]);
-        }
-    }
-    std::cout << std::endl;
-    return (0);
-}
+    public:
+        Util(void);
+        ~Util(void);
+
+
+        void strToUpper(std::string &str);
+        void printTerminal(std::string str);
+        bool inputTerminal(std::string &str);
+
+};
+
+#endif
