@@ -6,14 +6,14 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:55:48 by lucas             #+#    #+#             */
-/*   Updated: 2023/04/29 12:52:07 by lucas            ###   ########.fr       */
+/*   Updated: 2023/04/30 01:40:59 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PROGRAM_HPP
 # define PROGRAM_HPP
 
-# define FAIL 1
+# define FAILURE 1
 # define SUCCESS 0
 
 # define EOF_ERROR "EOF detected. Exiting..."

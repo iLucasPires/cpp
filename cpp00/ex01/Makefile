@@ -1,4 +1,4 @@
-NAME = phone_book
+NAME = phoneBook
 
 OBJ_DIR = obj
 SRC_DIR = src

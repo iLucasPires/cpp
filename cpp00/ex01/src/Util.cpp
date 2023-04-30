@@ -6,13 +6,17 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 21:30:03 by lucas             #+#    #+#             */
-/*   Updated: 2023/04/29 14:02:31 by lucas            ###   ########.fr       */
+/*   Updated: 2023/04/30 02:32:31 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/program.hpp"
 
-Util::Util(void) {}
+Util::Util(void)
+{
+    this->isLooping = true;
+}
+
 Util::~Util(void) {}
 
 void Util::strToUpper(std::string &str)
@@ -21,32 +25,37 @@ void Util::strToUpper(std::string &str)
         str[i] = std::toupper(str[i]);
 }
 
-void Util::printTerminal(std::string str)
+void Util::printTerminal(std::string str, bool endLine)
 {
     if (str.empty())
         return;
-    std::cout << str << std::endl;
+    if (endLine)
+        std::cout << str << std::endl;
+    else
+        std::cout << str;
 }
 
-bool Util::inputTerminal(std::string &str)
+bool Util::inputTerminal(std::string &str, std::string msg)
 {
+
+    this->printTerminal(msg, false);
     std::getline(std::cin, str);
     if (std::cin.eof())
     {
-        std::cout << "\n" << EOF_ERROR << std::endl;
-        std::cin.clear();
+        this->isLooping = false;
+        this->printTerminal(EOF_ERROR, true);
         return (false);
     }
     if (std::cin.fail())
     {
-        std::cin.clear();
-        std::cout << INVALID_INPUT << std::endl;
-        this->inputTerminal(str);
+
+        this->printTerminal(INVALID_INPUT, true);
+        this->inputTerminal(str, msg);
     }
     if (str.empty())
     {
-        std::cout << INVALID_INPUT << std::endl;
-        this->inputTerminal(str);
+        this->printTerminal(INVALID_INPUT, true);
+        this->inputTerminal(str, msg);
     }
     return (true);
 }

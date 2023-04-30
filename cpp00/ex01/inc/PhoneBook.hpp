@@ -6,7 +6,7 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 21:54:08 by lucas             #+#    #+#             */
-/*   Updated: 2023/04/29 14:05:54 by lucas            ###   ########.fr       */
+/*   Updated: 2023/04/30 17:17:03 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ class PhoneBook
         void phoneBookHeader(void);
         void phoneBookMenu(void);
 
-        Util _util;
+        Util *util;
 
     private:
         int _contacts_index;
         Contact _contacts[MAX_CONTACTS];
 
         void _printContactList(void);
-        void _getContactInfo(std::string info[INFO_SIZE]);
+        void _getContactInfo(void);
 };
 
 #endif
