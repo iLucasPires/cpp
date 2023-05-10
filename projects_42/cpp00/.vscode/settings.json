@@ -45,20 +45,6 @@
         "ostream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp",
-        "bitset": "cpp",
-        "cstring": "cpp",
-        "ctime": "cpp",
-        "map": "cpp",
-        "regex": "cpp",
-        "sstream": "cpp",
-        "iomanip": "cpp"
-    },
-    "files.exclude": {
-        "**/.classpath": true,
-        "**/.project": true,
-        "**/.settings": true,
-        "**/.factorypath": true,
-        "**/.vscode": true,
-    },
+        "typeinfo": "cpp"
+    }
 }

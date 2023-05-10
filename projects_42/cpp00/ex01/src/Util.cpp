@@ -6,7 +6,7 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 21:30:03 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/06 00:22:08 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/08 23:32:55 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,25 @@ void Util::strToUpper(std::string &str)
         str[i] = std::toupper(str[i]);
 }
 
-void Util::printTerminal(std::string str, bool endLine)
+bool Util::inputTerminal(std::string &str)
 {
-    if (str.empty())
-        return;
-    if (endLine)
-        std::cout << str << std::endl;
-    else
-        std::cout << str;
-}
-
-bool Util::inputTerminal(std::string &str, std::string msg)
-{
-    Util::printTerminal(msg, false);
     std::getline(std::cin, str);
     if (std::cin.eof() || std::cin.fail())
     {
-        Util::isLooping = false;
-        Util::printTerminal("\nBye bye!");
+        std::cout << "\nBye bye!" << std::endl;
         return (false);
     }
-    Util::strToUpper(str);
+    return (true);
+}
+
+bool Util::inputTerminal(int &num)
+{
+    std::cin >> num;
+    if (std::cin.eof() || std::cin.fail())
+    {
+        std::cout << "\nBye bye!" << std::endl;
+        return (false);
+    }
+    std::cin.ignore();
     return (true);
 }

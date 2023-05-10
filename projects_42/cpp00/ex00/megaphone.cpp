@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Util.hpp                                           :+:      :+:    :+:   */
+/*   megaphone.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 21:26:12 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/08 23:33:12 by lucas            ###   ########.fr       */
+/*   Created: 2023/04/25 22:15:08 by lucas             #+#    #+#             */
+/*   Updated: 2023/04/25 22:15:08 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTIL_HPP
-#define UTIL_HPP
+#include <iostream>
 
-class Util
+int main(int argc, char const *argv[])
 {
-    public:
-        Util(void);
-        ~Util(void);
-
-        static void strToUpper(std::string &str);
-        static bool inputTerminal(std::string &str);
-        static bool inputTerminal(int &num);
-
-        static bool isLooping;
-        static std::string command;
-};
-
-#endif
+    if (argc == 1)
+    {
+        std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
+        return (0);
+    }
+    for (int i = 1; i < argc; i++)
+    {
+        for (int j = 0; argv[i][j]; j++)
+        {
+            std::cout << (char)std::toupper(argv[i][j]);
+        }
+    }
+    std::cout << std::endl;
+    return (0);
+}

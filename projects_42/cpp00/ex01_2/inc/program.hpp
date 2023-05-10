@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Util.hpp                                           :+:      :+:    :+:   */
+/*   program.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 21:26:12 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/08 23:33:12 by lucas            ###   ########.fr       */
+/*   Created: 2023/05/09 11:40:48 by lucas             #+#    #+#             */
+/*   Updated: 2023/05/09 21:02:22 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTIL_HPP
-#define UTIL_HPP
+#ifndef PROGRAM_HPP
+#define PROGRAM_HPP
 
-class Util
-{
-    public:
-        Util(void);
-        ~Util(void);
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <functional>
 
-        static void strToUpper(std::string &str);
-        static bool inputTerminal(std::string &str);
-        static bool inputTerminal(int &num);
 
-        static bool isLooping;
-        static std::string command;
-};
+#include "Contact.hpp"
+#include "PhoneBook.hpp"
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 22:15:03 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/06 00:22:13 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/08 23:33:24 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,31 @@
 int main(void)
 {
     PhoneBook phonebook;
+    std::string comannd;
 
     phonebook.phoneBookHeader();
-    while (Util::isLooping)
+    while (phonebook.isLooping)
     {
         phonebook.phoneBookMenu();
-        if (!Util::inputTerminal(Util::command, "Enter a command: "))
-            break;
-        if (Util::command == "ADD" || Util::command == "1")
+        std::cout << "Enter a command:";
+        if (!Util::inputTerminal(comannd))
         {
-            std::cout << "Adding a new contact..." << std::endl;
+            phonebook.isLooping = false;
+            break ;
+        }
+        Util::strToUpper(comannd);
+        if (comannd == "ADD" || comannd == "1")
+        {
             phonebook.addContact();
         }
-        else if (Util::command == "SEARCH" || Util::command == "2")
+        else if (comannd == "SEARCH" || comannd == "2")
         {
-            std::cout << "Searching for a contact..." << std::endl;
             phonebook.searchContact();
         }
-        else if (Util::command == "EXIT" || Util::command == "3")
+        else if (comannd == "EXIT" || comannd == "3")
         {
             std::cout << "Bye bye!" << std::endl;
-            Util::isLooping = false;
+            phonebook.isLooping = false;
         }
         else
             std::cout << "Invalid command!" << std::endl;
