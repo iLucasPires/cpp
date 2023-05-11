@@ -6,7 +6,7 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:38:28 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/11 02:43:10 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/11 13:16:06 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void header()
 {
-    std::cout << C_BOLD << "Welcome to your phonebook!\n"
-              << C_BOLD << SEPARATOR << "\n"
-              << C_BOLD << "[ADD or 1] add a new contact \n"
-              << C_BOLD << "[SEARCH or 2] search a contact \n"
-              << C_BOLD << "[EXIT or 3] exit the program\n"
-              << C_RESET << C_BOLD << SEPARATOR << "\n";
+    std::cout << C_BOLD << "Welcome to your phonebook!" << BR
+              << C_BOLD << SEPARATOR << BR
+              << C_BOLD << "[ADD or 1] add a new contact" << BR
+              << C_BOLD << "[SEARCH or 2] search a contact" << BR
+              << C_BOLD << "[EXIT or 3] exit the program" << BR
+              << C_RESET << C_BOLD << SEPARATOR << BR;
 }
 
 int main(void)

@@ -6,7 +6,7 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 11:39:08 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/11 02:30:48 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/11 13:53:43 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 class PhoneBook
 {
     private:
+        int _contactsIndex;
         int _contactsCount;
+
         Contact _contacts[8];
 
         static bool _validateName(std::string name);

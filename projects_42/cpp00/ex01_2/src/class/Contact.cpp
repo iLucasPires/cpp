@@ -6,7 +6,7 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:35:29 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/11 00:48:53 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/11 12:56:42 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,17 @@ Contact::Contact()
 
 Contact::~Contact() {}
 
-std::string *Contact::getAllInfo(void) { return this->_info; }
+std::string *Contact::getAllInfo(void)
+{
+    if (this->_isEmpty)
+        return NULL;
+    return this->_info;
+}
 
 void Contact::setAllInfo(std::string info[])
 {
     for (int i = 0; i < MAX_INFO_SIZE; i++)
         this->_info[i] = info[i];
-
     this->_isEmpty = false;
 }
 
