@@ -6,7 +6,7 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:34:03 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/10 15:13:46 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/11 02:40:18 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,61 +16,116 @@ PhoneBook::PhoneBook() { this->_contactsCount = 0; }
 
 PhoneBook::~PhoneBook() {}
 
-bool PhoneBook::getComand(const std::string message, std::function<bool(std::string)> validate)
+bool PhoneBook::_validateName(std::string name)
 {
-    if (!message.empty())
-        std::cout << message;
+    int len = name.length();
 
-    while (this->_isRunning)
+    if (len < 3 || len > 20)
     {
-        std::getline(std::cin, this->command);
-        if (std::cin.eof() || std::cin.bad() || std::cin.fail())
+        std::cout << "Name must have between 3 and 20 characters." << std::endl;
+        return false;
+    }
+
+    for (int i = 0; i < len; i++)
+    {
+        if (!std::isalpha(name[i]))
         {
-            std::cout << "Error in input. Exiting..." << std::endl;
-            this->_isRunning = false;
+            std::cout << "Name must have only letters." << std::endl;
             return false;
         }
-
-        if (this->command.empty())
-        {
-            std::cout << "Command can't be empty. Try again: ";
-            this->command.clear();
-            continue;
-        }
-
-        if (validate && !validate(this->command))
-        {
-            std::cout << "Please, verify your input. Try again: ";
-            continue;
-        }
-        return true;
     }
-    return false;
+    return true;
+}
+
+bool PhoneBook::_validateNickname(std::string nickname)
+{
+    int len = nickname.length();
+
+    if (len < 3 || len > 20)
+    {
+        std::cout << "Nickname must have between 3 and 20 characters." << std::endl;
+        return false;
+    }
+
+    for (int i = 0; i < len; i++)
+    {
+        if (!std::isalnum(nickname[i]))
+        {
+            std::cout << "Nickname must have only letters and numbers." << std::endl;
+            return false;
+        }
+    }
+    return true;
+}
+
+bool PhoneBook::_validateNumber(std::string number)
+{
+    int len = number.length();
+
+    if (len < 3 || len > 20)
+    {
+        std::cout << "Number must have between 3 and 20 characters." << std::endl;
+        return false;
+    }
+
+    for (int i = 0; i < len; i++)
+    {
+        if (!std::isdigit(number[i]))
+        {
+            std::cout << "Number must have only numbers." << std::endl;
+            return false;
+        }
+    }
+    return true;
+}
+
+bool PhoneBook::_validateIndex(std::string index)
+{
+    if (index[0] < '0' || index[0] > '7' || index.length() > 1)
+    {
+        std::cout << "Index must be between 0 and 7." << std::endl;
+        return false;
+    }
+
+    return true;
 }
 
 void PhoneBook::addNewContact()
 {
-    this->getComand("First name: ", NULL);
-    this->_contacts[this->_contactsCount].setFirstName(this->command);
+    std::string info[MAX_INFO_SIZE];
 
-    this->getComand("Last name: ", NULL);
-    this->_contacts[this->_contactsCount].setLastName(this->command);
-
-    this->getComand("Nickname: ", NULL);
-    this->_contacts[this->_contactsCount].setNickname(this->command);
-
-    this->getComand("Number: ", NULL);
-    this->_contacts[this->_contactsCount].setNumber(this->command);
-
-    this->getComand("Darkest secret: ", NULL);
-    this->_contacts[this->_contactsCount].setDarkestSecret(this->command);
+    if (this->util.getComand("First name: ", info[FIRST_NAME], this->_validateName) &&
+        this->util.getComand("Last name: ", info[LAST_NAME], this->_validateName) &&
+        this->util.getComand("Nickname: ", info[NICKNAME], this->_validateNickname) &&
+        this->util.getComand("Number: ", info[NUMBER], this->_validateNumber) &&
+        this->util.getComand("Darkest secret: ", info[DARKEST_SECRET], NULL))
+    {
+        this->_contacts[this->_contactsCount].setAllInfo(info);
+        this->_contactsCount++;
+    }
 }
 
 void PhoneBook::searchContact()
 {
-    std::cout << std::setw(10) << std::right << "Index" << "|";
-    std::cout << std::setw(10) << std::right << "First name" << "|";
-    std::cout << std::setw(10) << std::right << "Last name" << "|";
-    std::cout << std::setw(10) << std::right << "Nickname" << std::endl;
+    this->util.headerTable();
 
+    for (int i = 0; i < this->_contactsCount; i++)
+    {
+        this->util.bodyTable(
+            this->_contacts[i].getFirstName(),
+            this->_contacts[i].getLastName(),
+            this->_contacts[i].getNickname(),
+            i);
+    }
+    std::string input;
+
+    if (this->util.getComand("Select a contact: [0-7] ", input, this->_validateIndex) &&
+        input[0] - '0' < this->_contactsCount)
+    {
+        this->util.onlyContact(this->_contacts[input[0] - '0'].getAllInfo());
+    }
+    else if (this->util.isRunning)
+    {
+        std::cout << "Invalid index or contact not found." << std::endl;
+    }
 }

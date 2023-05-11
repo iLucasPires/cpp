@@ -6,7 +6,7 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:35:29 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/09 20:55:16 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/11 00:48:53 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,24 @@
 
 Contact::Contact()
 {
-    this->_firstName = "";
-    this->_lastName = "";
-    this->_nickname = "";
-    this->_number = "";
-    this->_darkest_secret = "";
+    this->_isEmpty = true;
+    std::fill(this->_info, this->_info + MAX_INFO_SIZE, "");
 }
 
 Contact::~Contact() {}
 
-void Contact::setFirstName(std::string firstName) { this->_firstName = firstName; }
+std::string *Contact::getAllInfo(void) { return this->_info; }
 
-void Contact::setLastName(std::string lastName) { this->_lastName = lastName; }
+void Contact::setAllInfo(std::string info[])
+{
+    for (int i = 0; i < MAX_INFO_SIZE; i++)
+        this->_info[i] = info[i];
 
-void Contact::setNickname(std::string nickname) { this->_nickname = nickname; }
+    this->_isEmpty = false;
+}
 
-void Contact::setNumber(std::string number) { this->_number = number; }
-
-void Contact::setDarkestSecret(std::string darkestSecret) { this->_darkest_secret = darkestSecret; }
+std::string Contact::getFirstName(void) { return this->_info[FIRST_NAME]; }
+std::string Contact::getLastName(void) { return this->_info[LAST_NAME]; }
+std::string Contact::getNickname(void) { return this->_info[NICKNAME]; }
+std::string Contact::getNumber(void) { return this->_info[NUMBER]; }
+std::string Contact::getDarkestSecret(void) { return this->_info[DARKEST_SECRET]; }

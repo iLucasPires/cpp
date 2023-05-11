@@ -5,12 +5,12 @@ SRC_DIR = src
 INC_DIR = inc
 
 VPATH = ./src/class ./src
-SRC = main.cpp PhoneBook.cpp Contact.cpp
+SRC = main.cpp PhoneBook.cpp Contact.cpp Util.cpp
 
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
-CC = clang++ -std=c++98
-CFLAGS = -Wall -Wextra -Werror -I $(INC_DIR)
+CC = c++
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -I $(INC_DIR)
 
 all: $(NAME)
 

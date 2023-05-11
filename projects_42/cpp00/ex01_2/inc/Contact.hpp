@@ -6,30 +6,40 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 11:37:52 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/09 23:02:31 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/10 19:03:58 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONTACT_HPP
 #define CONTACT_HPP
 
+# define MAX_INFO_SIZE 5
+
+enum infoIndex
+{
+    FIRST_NAME,
+    LAST_NAME,
+    NICKNAME,
+    NUMBER,
+    DARKEST_SECRET
+};
+
 class Contact
 {
     private:
-        std::string _firstName;
-        std::string _lastName;
-        std::string _nickname;
-        std::string _number;
-        std::string _darkest_secret;
+        bool _isEmpty;
+        std::string _info[MAX_INFO_SIZE];
+
 
     public:
-        bool _isEmpty;
+        void setAllInfo(std::string info[]);
+        std::string getFirstName(void);
+        std::string getLastName(void);
+        std::string getNickname(void);
+        std::string getNumber(void);
+        std::string getDarkestSecret(void);
+        std::string *getAllInfo(void);
 
-        void setFirstName(std::string firstName);
-        void setLastName(std::string lastName);
-        void setNickname(std::string nickname);
-        void setNumber(std::string number);
-        void setDarkestSecret(std::string darkestSecret);
 
         Contact();
         ~Contact();
