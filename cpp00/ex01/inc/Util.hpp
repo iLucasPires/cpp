@@ -5,26 +5,29 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 21:26:12 by lucas             #+#    #+#             */
-/*   Updated: 2023/04/30 17:49:23 by lucas            ###   ########.fr       */
+/*   Created: 2023/05/11 00:53:19 by lucas             #+#    #+#             */
+/*   Updated: 2023/05/11 11:47:21 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
+
+
 class Util
 {
     public:
-        Util(void);
-        ~Util(void);
+        Util();
+        ~Util();
 
-        static void strToUpper(std::string &str);
-        static void printTerminal(std::string str, bool endLine = true);
-        static bool inputTerminal(std::string &str, std::string msg);
+        bool isRunning;
 
-        static bool isLooping;
-        static std::string command;
+        void headerTable(void);
+        void bodyTable(std::string firstName, std::string lastName, std::string nickname, int index);
+        void footerTable(void);
+        void onlyContact(std::string info[]);
+        bool getComand(const std::string message, std::string &value, bool (*validate)(std::string));
 };
 
 #endif

@@ -5,45 +5,44 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 21:54:28 by lucas             #+#    #+#             */
-/*   Updated: 2023/04/30 17:13:23 by lucas            ###   ########.fr       */
+/*   Created: 2023/05/09 11:37:52 by lucas             #+#    #+#             */
+/*   Updated: 2023/05/11 12:55:53 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONTACT_HPP
 #define CONTACT_HPP
 
-#define INFO_SIZE 5
+# define MAX_INFO_SIZE 5
 
-enum
+enum infoIndex
 {
     FIRST_NAME,
     LAST_NAME,
     NICKNAME,
-    PHONE_NUMBER,
+    NUMBER,
     DARKEST_SECRET
 };
 
 class Contact
 {
-    public:
-        Contact(void);
-        ~Contact(void);
-
-        std::string getInfo(int index);
-        void setInfo(std::string info[INFO_SIZE]);
-
-        bool setFirstName(void);
-        bool setLastName(void);
-        bool setNickname(void);
-        bool setPhoneNumber(void);
-        bool setDarkestSecret(void);
-
-        Util *util;
-
     private:
-        bool _is_empty;
-        std::string _info[INFO_SIZE];
+        bool _isEmpty;
+        std::string _info[MAX_INFO_SIZE];
+
+
+    public:
+        void setAllInfo(std::string info[]);
+        std::string getFirstName(void);
+        std::string getLastName(void);
+        std::string getNickname(void);
+        std::string getNumber(void);
+        std::string getDarkestSecret(void);
+        std::string *getAllInfo(void);
+
+
+        Contact();
+        ~Contact();
 };
 
 #endif

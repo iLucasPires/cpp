@@ -2,16 +2,15 @@ NAME = phoneBook
 
 OBJ_DIR = obj
 SRC_DIR = src
+INC_DIR = inc
 
-SRC = $(SRC_DIR)/main.cpp \
-	$(SRC_DIR)/PhoneBook.cpp \
-	$(SRC_DIR)/Contact.cpp \
-	$(SRC_DIR)/Util.cpp
+VPATH = ./src/class ./src
+SRC = main.cpp PhoneBook.cpp Contact.cpp Util.cpp
 
-OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -I $(INC_DIR)
 
 all: $(NAME)
 
@@ -19,7 +18,7 @@ $(NAME): $(OBJ)
 	@c++ $(CFLAGS) $(OBJ) -o $@
 	@echo "link $@"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(OBJ_DIR)
 	@c++ $(CFLAGS) -c $< -o $@
 	@echo "compile $<"

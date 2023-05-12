@@ -6,22 +6,18 @@
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 00:55:23 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/11 14:17:34 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/12 13:03:42 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "program.hpp"
 
-Util::Util()
-{
-    this->isRunning = true;
-}
+Util::Util() { this->isRunning = true; }
 Util::~Util() {}
 
 void Util::headerTable()
 {
-    std::cout << C_BOLD << SEPARATOR << BR
-              << std::setw(10) << std::right << "Index"
+    std::cout << std::setw(10) << std::right << "Index"
               << "|" << std::setw(10) << std::right << "First name"
               << "|" << std::setw(10) << std::right << "Last name"
               << "|" << std::setw(10) << std::right << "Nickname"
@@ -49,13 +45,13 @@ void Util::onlyContact(std::string info[])
         std::cout << "Contact is empty." << BR;
         return;
     }
-    std ::cout << C_BOLD << SEPARATOR << BR
+    std ::cout << std::string(45, '-') << BR
                << "First name: " << info[FIRST_NAME] << BR
                << "Last name: " << info[LAST_NAME] << BR
                << "Nickname: " << info[NICKNAME] << BR
                << "Phone number: " << info[NUMBER] << BR
                << "Darkest secret: " << info[DARKEST_SECRET] << BR
-               << SEPARATOR << BR;
+                << std::string(45, '-') << BR;
 }
 
 bool Util::getComand(const std::string message, std::string &value, bool (*validate)(std::string))
@@ -71,13 +67,13 @@ bool Util::getComand(const std::string message, std::string &value, bool (*valid
     {
         if (message.empty() == false)
         {
-            std::cout << message;
+            std::cout << C_RESET << message;
         }
         std::getline(std::cin, input);
 
         if (std::cin.eof() || std::cin.bad() || std::cin.fail())
         {
-            std::cout << C_RED << ERROR_INPUT << std::endl;
+            std::cout << C_RED << ERROR_INPUT << C_RESET << BR;
             this->isRunning = false;
             return false;
         }
@@ -85,14 +81,14 @@ bool Util::getComand(const std::string message, std::string &value, bool (*valid
         if (input.length() > 256)
         {
             std::cout << C_YELLOW << ERROR_COMMAND_TOO_LONG
-                      << C_RESET << C_BOLD << BR;
+                      << C_RESET << BR;
             continue;
         }
 
         if (input.empty() == true)
         {
             std::cout << C_YELLOW << ERROR_COMMAND_EMPTY
-                      << C_RESET << C_BOLD << BR;
+                      << C_RESET << BR;
             continue;
         }
 
@@ -100,8 +96,6 @@ bool Util::getComand(const std::string message, std::string &value, bool (*valid
         {
             if (validate(input) == false)
             {
-                std::cout << C_YELLOW << ERROR_COMMAND_NOT_VALID
-                          << C_RESET << C_BOLD << BR;
                 continue;
             }
         }

@@ -5,36 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 21:54:08 by lucas             #+#    #+#             */
-/*   Updated: 2023/04/30 17:17:03 by lucas            ###   ########.fr       */
+/*   Created: 2023/05/09 11:39:08 by lucas             #+#    #+#             */
+/*   Updated: 2023/05/11 13:53:43 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHONEBOOK_HPP
 #define PHONEBOOK_HPP
 
-#define MAX_CONTACTS 8
-
 class PhoneBook
 {
-    public:
-        PhoneBook(void);
-        ~PhoneBook(void);
+    private:
+        int _contactsIndex;
+        int _contactsCount;
 
-        void addContact(void);
+        Contact _contacts[8];
+
+        static bool _validateName(std::string name);
+        static bool _validateNickname(std::string nickname);
+        static bool _validateNumber(std::string number);
+        static bool _validateIndex(std::string index);
+
+    public:
+        Util util;
+
+        PhoneBook();
+        ~PhoneBook();
+
+        void addNewContact(void);
         void searchContact(void);
 
-        void phoneBookHeader(void);
-        void phoneBookMenu(void);
 
-        Util *util;
-
-    private:
-        int _contacts_index;
-        Contact _contacts[MAX_CONTACTS];
-
-        void _printContactList(void);
-        void _getContactInfo(void);
 };
 
 #endif
