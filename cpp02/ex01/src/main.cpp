@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Util.hpp                                           :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucas <lucas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 00:53:19 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/17 20:10:40 by lucas            ###   ########.fr       */
+/*   Created: 2023/05/12 13:51:01 by lucas             #+#    #+#             */
+/*   Updated: 2023/05/17 00:05:00 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTIL_HPP
-#define UTIL_HPP
+#include "Harl.hpp"
 
-class Util
+int main()
 {
-    public:
-        Util();
-        ~Util();
+    Harl harl;
 
-        bool isRunning;
+    harl.complain("DEBUG");
+    harl.complain("INFO");
+    harl.complain("WARNING");
+    harl.complain("ERROR");
+    harl.complain("FATAL");
 
-        void headerTable(void);
-        void bodyTable(std::string firstName, std::string lastName, std::string nickname, int index);
-        void onlyContact(std::string info[]);
-        bool getComand(const std::string message, std::string &value, bool (*validate)(std::string));
-};
-
-#endif
+    return 0;
+}

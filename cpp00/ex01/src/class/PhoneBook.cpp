@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   PhoneBook.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
+/*   By: lucas <lucas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:34:03 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/11 23:14:14 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/18 16:00:32 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "program.hpp"
+#include "PhoneBook.hpp"
 
 PhoneBook::PhoneBook()
 {
@@ -26,7 +26,7 @@ bool PhoneBook::_validateName(std::string name)
 
     if (len < 3 || len > 20)
     {
-        std::cout << C_YELLOW << "Name must have between 3 and 20 characters." << BR;
+        std::cout << C_YELLOW << "Name must have between 3 and 20 characters." << '\n';
         return false;
     }
 
@@ -34,7 +34,7 @@ bool PhoneBook::_validateName(std::string name)
     {
         if (!std::isalpha(name[i]))
         {
-            std::cout << C_YELLOW << "Name must have only letters." << BR;
+            std::cout << C_YELLOW << "Name must have only letters." << '\n';
             return false;
         }
     }
@@ -47,7 +47,7 @@ bool PhoneBook::_validateNickname(std::string nickname)
 
     if (len < 3 || len > 20)
     {
-        std::cout << C_YELLOW << "Nickname must have between 3 and 20 characters." << BR;
+        std::cout << C_YELLOW << "Nickname must have between 3 and 20 characters." << '\n';
         return false;
     }
 
@@ -55,7 +55,7 @@ bool PhoneBook::_validateNickname(std::string nickname)
     {
         if (!std::isalnum(nickname[i]))
         {
-            std::cout << C_YELLOW << "Nickname must have only letters and numbers." << BR;
+            std::cout << C_YELLOW << "Nickname must have only letters and numbers." << '\n';
             return false;
         }
     }
@@ -68,7 +68,7 @@ bool PhoneBook::_validateNumber(std::string number)
 
     if (len < 3 || len > 20)
     {
-        std::cout << C_YELLOW << "Number must have between 3 and 20 characters." << BR;
+        std::cout << C_YELLOW << "Number must have between 3 and 20 characters." << '\n';
         return false;
     }
 
@@ -76,7 +76,7 @@ bool PhoneBook::_validateNumber(std::string number)
     {
         if (!std::isdigit(number[i]))
         {
-            std::cout << C_YELLOW << "Number must have only numbers." << BR;
+            std::cout << C_YELLOW << "Number must have only numbers." << '\n';
             return false;
         }
     }
@@ -87,7 +87,7 @@ bool PhoneBook::_validateIndex(std::string index)
 {
     if (index[0] < '0' || index[0] > '7' || index.length() > 1)
     {
-        std::cout << C_YELLOW << "Index must be between 0 and 7." << BR;
+        std::cout << C_YELLOW << "Index must be between 0 and 7." << '\n';
         return false;
     }
 
@@ -118,7 +118,7 @@ void PhoneBook::searchContact()
 {
     if (this->_contactsIndex == 0)
     {
-        std::cout << "No contacts found." << BR;
+        std::cout << "No contacts found." << '\n';
         return;
     }
 
@@ -132,6 +132,7 @@ void PhoneBook::searchContact()
             this->_contacts[i].getNickname(),
             i);
     }
+    std::cout << std::string(45, '-') << '\n';
     std::string input;
 
     if (this->util.getComand("Select a contact: [0-7] ", input, this->_validateIndex))

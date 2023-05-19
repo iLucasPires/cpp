@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
+/*   By: lucas <lucas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:38:28 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/12 13:04:50 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/18 15:53:04 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "program.hpp"
+#include "PhoneBook.hpp"
 
 int main(void)
 {
     PhoneBook phone;
     std::string command;
 
-    std::cout << C_BOLD << C_GREEN << "Welcome to your phonebook!" << C_RESET << BR
-              << std::string(45, '-') << BR
-              << "[ADD] add a new contact" << BR
-              << "[SEARCH] search a contact" << BR
-              << "[EXIT] exit the program" << BR
-              << C_RESET << std::string(45, '-') << BR;
+    std::cout << C_BOLD << C_GREEN << "Welcome to your phonebook!" << C_RESET << '\n'
+              << std::string(45, '-') << '\n'
+              << "[ADD] add a new contact" << '\n'
+              << "[SEARCH] search a contact" << '\n'
+              << "[EXIT] exit the program" << '\n'
+              << C_RESET << std::string(45, '-') << '\n';
     while (phone.util.isRunning)
     {
-        if (phone.util.getComand(INPUT_COMMAND, command, NULL) == false)
+        if (phone.util.getComand("enter a command: ", command, NULL) == false)
             return false;
 
         if (command == "ADD")
@@ -48,7 +48,7 @@ int main(void)
 
         else
         {
-            std::cout << C_RED << ERROR_COMMAND_NOT_FOUND << C_RESET << BR;
+            std::cout << C_RED << "Command not found. Try again." << C_RESET << '\n';
             continue;
         }
     }

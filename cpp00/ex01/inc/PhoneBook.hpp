@@ -3,15 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   PhoneBook.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucas <lpires-n@student.42sp.org.br>       +#+  +:+       +#+        */
+/*   By: lucas <lucas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 11:39:08 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/11 13:53:43 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/18 15:55:18 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHONEBOOK_HPP
 #define PHONEBOOK_HPP
+
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+#define C_RED "\033[0;31m"
+#define C_GREEN "\033[0;32m"
+#define C_YELLOW "\033[0;33m"
+#define C_RESET "\033[0m"
+#define C_BOLD "\033[1m"
+
+#include "Util.hpp"
+#include "Contact.hpp"
 
 class PhoneBook
 {
@@ -34,8 +47,6 @@ class PhoneBook
 
         void addNewContact(void);
         void searchContact(void);
-
-
 };
 
 #endif
