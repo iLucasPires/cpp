@@ -6,7 +6,7 @@
 /*   By: lucas <lucas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 16:38:41 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/22 22:46:50 by lucas            ###   ########.fr       */
+/*   Updated: 2023/05/23 16:33:21 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,48 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 
 class Fixed
 {
-public:
-	Fixed();
-	Fixed(Fixed const &src);
-	Fixed(const int n);
-	Fixed(const float n);
-	~Fixed();
+	public:
+		Fixed();
+		Fixed(Fixed const &src);
+		Fixed(const int n);
+		Fixed(const float n);
+		~Fixed();
 
-	Fixed &operator=(Fixed const &rhs);
+		int getRawBits(void) const;
+		void setRawBits(int const raw);
+		int toInt(void) const;
+		float toFloat(void) const;
 
-	int getRawBits(void) const;
-	void setRawBits(int const raw);
-	int toInt(void) const;
-	float toFloat(void) const;
+		Fixed &operator=(Fixed const &rhs);
+		Fixed &operator++(void);
+		Fixed operator++(int);
+		Fixed &operator--(void);
+		Fixed operator--(int);
+		static const Fixed &min(const Fixed &a, const Fixed &b);
+		static const Fixed &max(const Fixed &a, const Fixed &b);
+		static Fixed &min(Fixed &a, Fixed &b);
+		static Fixed &max(Fixed &a, Fixed &b);
+		Fixed operator+(Fixed const &rhs) const;
+		Fixed operator-(Fixed const &rhs) const;
+		Fixed operator*(Fixed const &rhs) const;
+		Fixed operator/(Fixed const &rhs) const;
 
-private:
-	int _raw;
-	static const int _bits = 8;
+		bool operator>(Fixed const &rhs) const;
+		bool operator<(Fixed const &rhs) const;
+		bool operator>=(Fixed const &rhs) const;
+		bool operator<=(Fixed const &rhs) const;
+		bool operator==(Fixed const &rhs) const;
+		bool operator!=(Fixed const &rhs) const;
+
+	private:
+		int _raw;
+		static const int _bits = 8;
 };
+
 std::ostream &operator<<(std::ostream &out, const Fixed &self);
 
 #endif
