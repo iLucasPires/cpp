@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Harl.hpp                                           :+:      :+:    :+:   */
+/*   Fixed.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucas <lucas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/16 22:13:31 by lucas             #+#    #+#             */
-/*   Updated: 2023/05/17 00:02:43 by lucas            ###   ########.fr       */
+/*   Created: 2023/05/22 16:38:41 by lucas             #+#    #+#             */
+/*   Updated: 2023/05/22 21:37:44 by lucas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef __HARL_H__
-#define __HARL_H__
+#ifndef __FIXED_HPP__
+#define __FIXED_HPP__
 
 #include <iostream>
+#include <string>
 
-class Harl
+class Fixed
 {
-    private:
-        void _debug(void);
-        void _info(void);
-        void _warning(void);
-        void _error(void);
-        std::string _level[4];
-        void (Harl::*_ptr[4])(void);
+	public:
+		Fixed();
+		Fixed(Fixed const &src);
+		~Fixed();
 
-    public:
-        Harl();
-        ~Harl();
+		Fixed &operator=(Fixed const &rhs);
 
-        void complain(std::string level);
+		int getRawBits(void) const;
+		void setRawBits(int const raw);
+
+	private:
+		int  _raw;
+		static const int _bits;
 };
 
-#endif // __HARL_H__
+#endif

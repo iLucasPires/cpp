@@ -5,6 +5,7 @@ SRC_DIR = src
 
 SRC = main.cpp Fixed.cpp
 
+
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
