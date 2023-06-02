@@ -34,6 +34,14 @@ int main(void)
 
     zoro.attack(luffy.getName());
     luffy.takeDamage(zoro.getAttackDamage());
+    zoro.attack(luffy.getName());
+    luffy.takeDamage(zoro.getAttackDamage());
+    zoro.attack(luffy.getName());
+    luffy.takeDamage(zoro.getAttackDamage());
+    zoro.attack(luffy.getName());
+    luffy.takeDamage(zoro.getAttackDamage());
+    zoro.attack(luffy.getName());
+    luffy.takeDamage(zoro.getAttackDamage());
     luffy.beRepaired(10);
     luffy.guardGate();
 
