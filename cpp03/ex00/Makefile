@@ -1,9 +1,9 @@
 NAME = program
 
-BIN_DIR = bin
+OBJ_DIR = obj
 
 SRCS = main.cpp ClapTrap.cpp
-BUILD_OBJS = $(SRCS:%.cpp=$(BIN_DIR)/%.o)
+BUILD_OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
 
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
@@ -14,8 +14,8 @@ $(NAME): $(BUILD_OBJS)
 	@c++ $(CFLAGS) $(BUILD_OBJS) -o $@
 	@echo "link $@"
 
-$(BIN_DIR)/%.o: %.cpp
-	@mkdir -p $(BIN_DIR)
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(OBJ_DIR)
 	@c++ $(CFLAGS) -c $< -o $@
 	@echo "compile $<"
 
@@ -24,7 +24,7 @@ clean:
 	@echo "clean"
 
 fclean: clean
-	@rm -rf $(BIN_DIR)
+	@rm -rf $(OBJ_DIR)
 	@rm -f $(NAME) $(BUILD_OBJS)
 	@echo "fclean"
 

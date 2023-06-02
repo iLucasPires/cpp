@@ -2,7 +2,7 @@
 
 ScavTrap::ScavTrap() : ClapTrap()
 {
-	std::cout << "ScavTrap default constructor called\n";
+	std::cout << "[ScavTrap] default constructor called\n";
 	this->_attackDamage = 20;
 	this->_energyPoints = 50;
 	this->_hitPoints = 100;
@@ -10,7 +10,7 @@ ScavTrap::ScavTrap() : ClapTrap()
 
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 {
-	std::cout << "ScavTrap name constructor called\n";
+	std::cout << "[ScavTrap] name constructor called\n";
 	this->_attackDamage = 20;
 	this->_energyPoints = 50;
 	this->_hitPoints = 100;
@@ -18,13 +18,13 @@ ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 
 ScavTrap::ScavTrap(ScavTrap const &src) : ClapTrap(src)
 {
-	std::cout << "ScavTrap copy constructor called\n";
+	std::cout << "[ScavTrap] copy constructor called\n";
 	*this = src;
 }
 
 ScavTrap::~ScavTrap()
 {
-	std::cout << "ScavTrap destructor called\n";
+	std::cout << "[ScavTrap] destructor called\n";
 }
 
 ScavTrap &ScavTrap::operator=(ScavTrap const &rhs)
@@ -41,21 +41,38 @@ ScavTrap &ScavTrap::operator=(ScavTrap const &rhs)
 
 void ScavTrap::attack(std::string const &target)
 {
-	std::cout << "ScavTrap ";
-	if (this->checkIsAlive() == false || this->cheackHasEnergy() == false)
+	std::cout << "[ScavTrap] ";
+	if (this->_energyPoints <= 0)
+	{
+		std::cout << this->_name << " has no energy to attack! [HP = " << this->_hitPoints
+				  << "] [EP = " << this->_energyPoints << "]\n";
 		return;
-
-	std::cout << this->_name << " attacks " << target;
-	std::cout << ", causing " << this->_attackDamage << " points of damage!\n";
+	}
+	if (this->_hitPoints <= 0)
+	{
+		std::cout << this->_name << " is dead! [HP = " << this->_hitPoints
+				  << "] [EP = " << this->_energyPoints << "]\n";
+		return;
+	}
+	std::cout << this->_name << " attacks " << target
+			  << " causing " << this->_attackDamage << " points of damage! [HP = "
+			  << this->_hitPoints << "] [EP = " << this->_energyPoints
+			  << "]\n";
 
 	this->_energyPoints--;
 }
 
 void ScavTrap::guardGate(void)
 {
-	std::cout << "ScavTrap ";
-	if (this->checkIsAlive() == false)
+	std::cout << "[ScavTrap] ";
+	if (this->_hitPoints <= 0)
+	{
+		std::cout << this->_name << " is dead! [HP = " << this->_hitPoints
+				  << "] [EP = " << this->_energyPoints << "]\n";
 		return;
+	}
 
-	std::cout << this->_name << " has entered Gate keeper mode\n";
+	std::cout << this->_name << " has entered Gate keeper mode [HP = "
+			  << this->_hitPoints << "] [EP = " << this->_energyPoints
+			  << "]\n";
 }

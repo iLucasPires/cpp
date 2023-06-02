@@ -24,9 +24,6 @@ public:
 	void takeDamage(unsigned int amount);
 	void beRepaired(unsigned int amount);
 
-	bool checkIsAlive(void) const;
-	bool cheackHasEnergy(void) const;
-
 	std::string getName(void) const;
 	int getAttackDamage(void) const;
 };

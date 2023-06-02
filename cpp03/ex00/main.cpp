@@ -2,40 +2,37 @@
 
 static void print_header(std::string str)
 {
-    std::cout << std::string(60, '=') << std::endl;
-    std::cout << str << std::endl;
-    std::cout << std::string(60, '=') << std::endl;
+    std::cout << "============================================================\n"
+              << str << '\n'
+              << "============================================================\n";
 }
 
 int main(void)
 {
     print_header("CONSTRUCTORS");
-    ClapTrap robot1("Emily");
-    ClapTrap robot2("Nico");
-    ClapTrap robot1Copy(robot1);
-    ClapTrap robot2Copy = robot2;
-    ClapTrap robot3("R2-D2");
-    ClapTrap robot4;
 
-    print_header("FIGHT");
-    robot1.attack(robot2.getName());
-    robot2.takeDamage(robot1.getAttackDamage());
-    robot2.beRepaired(6);
+    ClapTrap emily("Emily");
+    ClapTrap nico("Nico");
 
-    std::cout << std::endl
-              << std::string(60, '-') << std::endl;
+    print_header("BATTLE 1");
+    emily.attack(nico.getName());
+    nico.takeDamage(emily.getAttackDamage());
+    nico.beRepaired(10);
+    nico.attack(emily.getName());
+    emily.takeDamage(nico.getAttackDamage());
+    emily.beRepaired(10);
 
-    robot2Copy.attack(robot1Copy.getName());
-    robot1Copy.takeDamage(robot2Copy.getAttackDamage());
-    robot1Copy.beRepaired(3);
+    print_header("COPY CONSTRUCTOR");
+    ClapTrap emily2(emily);
+    ClapTrap nico2(nico);
 
-    std::cout << std::endl
-              << std::string(60, '-') << std::endl;
-
-    for (int i = 0; i < 10; i++)
-        robot3.attack(robot4.getName());
-    robot3.attack(robot4.getName());
-    robot3.beRepaired(6);
+    print_header("BATTLE 2");
+    emily2.attack(nico2.getName());
+    nico2.takeDamage(emily2.getAttackDamage());
+    nico2.beRepaired(10);
+    nico2.attack(emily2.getName());
+    emily2.takeDamage(nico2.getAttackDamage());
+    emily2.beRepaired(10);
 
     print_header("DESTRUCTORS");
     return (0);

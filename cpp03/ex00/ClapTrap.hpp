@@ -12,8 +12,6 @@ class ClapTrap
 		int _attackDamage;
 		int _energyPoints;
 
-		void showStatus(std::string state);
-
 	public:
 		ClapTrap();
 		ClapTrap(std::string name);
