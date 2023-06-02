@@ -1,7 +1,5 @@
 #include "ClapTrap.hpp"
 
-#include "ClapTrap.hpp"
-
 ClapTrap::ClapTrap() : _name("r2d2"), _hitPoints(10),
 					   _attackDamage(0), _energyPoints(10)
 {
