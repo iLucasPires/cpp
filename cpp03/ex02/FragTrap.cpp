@@ -2,7 +2,7 @@
 
 FragTrap::FragTrap() : ClapTrap()
 {
-	std::cout << "FragTrap default constructor called\n";
+	std::cout << "[FragTrap] default constructor called\n";
 	this->_name = "r2d2";
 	this->_hitPoints = 100;
 	this->_energyPoints = 100;
@@ -11,7 +11,7 @@ FragTrap::FragTrap() : ClapTrap()
 
 FragTrap::FragTrap(std::string name) : ClapTrap(name)
 {
-	std::cout << "FragTrap constructor called\n";
+	std::cout << "[FragTrap] constructor called\n";
 	this->_name = name;
 	this->_hitPoints = 100;
 	this->_energyPoints = 100;
@@ -20,13 +20,13 @@ FragTrap::FragTrap(std::string name) : ClapTrap(name)
 
 FragTrap::FragTrap(const FragTrap &src) : ClapTrap(src)
 {
-	std::cout << "FragTrap copy constructor called\n";
+	std::cout << "[FragTrap] copy constructor called\n";
 	*this = src;
 }
 
 FragTrap::~FragTrap()
 {
-	std::cout << "FragTrap destructor called\n";
+	std::cout << "[FragTrap] destructor called\n";
 }
 
 FragTrap &FragTrap::operator=(FragTrap const &rhs)
@@ -43,9 +43,13 @@ FragTrap &FragTrap::operator=(FragTrap const &rhs)
 
 void FragTrap::highFivesGuys(void)
 {
-	std::cout << "FragTrap ";
-	if (!this->checkIsAlive())
+	std::cout << "[FragTrap] ";
+	if (this->_hitPoints <= 0)
+	{
+		std::cout << this->_name << " is dead! [HP = " << this->_hitPoints
+				  << "] [EP = " << this->_energyPoints << "]\n";
 		return;
-
-	std::cout << this->_name << " says: \"High five, guys!\"\n";
+	}
+	std::cout << this->_name << " high fives guys [HP = " << this->_hitPoints
+			  << "] [EP = " << this->_energyPoints << "]\n";
 }

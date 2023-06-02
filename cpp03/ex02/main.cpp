@@ -1,20 +1,29 @@
 #include "ClapTrap.hpp"
 #include "ScavTrap.hpp"
+#include "FragTrap.hpp"
+
+static void print_header(std::string str)
+{
+    std::cout << "============================================================\n"
+              << str << '\n'
+              << "============================================================\n";
+}
 
 int main(void)
 {
-    std::cout << "----- Default constructor -----\n";
+    print_header("CONSTRUCTORS");
     ScavTrap sentinel;
     ScavTrap sentinel2;
+    FragTrap ultron("Ultron");
+    FragTrap ultron2("Ultron2");
+    ClapTrap clap("Clap");
 
-    std::cout << "\n----- Name constructor -----\n";
-    ScavTrap ultron("Ultron");
-
-    std::cout << "\n----- Copy -----\n";
+    print_header("COPY CONSTRUCTORS");
     ScavTrap sentinelCopy(sentinel);
 
-    std::cout << "\n----- Battle -----\n";
+    print_header("BATLLE");
     ultron.attack(sentinel.getName());
+    ultron.highFivesGuys();
     sentinel.takeDamage(ultron.getAttackDamage());
     sentinel.beRepaired(10);
     sentinel.beRepaired(10);
@@ -26,7 +35,7 @@ int main(void)
     sentinelCopy.guardGate();
 
 
-    std::cout << "\n----- Destructors -----\n";
+    print_header("DESTRUCTORS");
 
     return (0);
 }
