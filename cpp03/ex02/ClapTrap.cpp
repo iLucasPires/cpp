@@ -110,9 +110,3 @@ int ClapTrap::getAttackDamage(void) const
 {
 	return (this->_attackDamage);
 }
-
-std::ostream &operator<<(std::ostream &out, ClapTrap const &self)
-{
-	out << self.getName();
-	return out;
-}
