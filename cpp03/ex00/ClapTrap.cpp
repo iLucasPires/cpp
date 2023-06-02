@@ -3,13 +3,13 @@
 ClapTrap::ClapTrap() : _name("r2d2"), _hitPoints(10),
 					   _attackDamage(0), _energyPoints(10)
 {
-	std::cout << "[ClapTrap] default constructor called\n";
+	std::cout << "[ClapTrap] " << this->_name << " default constructor called\n";
 }
 
 ClapTrap::ClapTrap(std::string name) : _name(name), _hitPoints(10),
 									   _attackDamage(0), _energyPoints(10)
 {
-	std::cout << "[ClapTrap] constructor called\n";
+	std::cout << "[ClapTrap] " << this->_name << " constructor called\n";
 }
 
 ClapTrap::ClapTrap(const ClapTrap &src)
@@ -20,7 +20,7 @@ ClapTrap::ClapTrap(const ClapTrap &src)
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << "[ClapTrap] destructor called\n";
+	std::cout << "[ClapTrap] " << this->_name << " destructor called\n";
 }
 
 ClapTrap &ClapTrap::operator=(ClapTrap const &rhs)

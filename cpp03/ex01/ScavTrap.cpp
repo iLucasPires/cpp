@@ -2,7 +2,7 @@
 
 ScavTrap::ScavTrap() : ClapTrap()
 {
-	std::cout << "[ScavTrap] default constructor called\n";
+	std::cout << "[ScavTrap] " << this->_name << " default constructor called\n";
 	this->_attackDamage = 20;
 	this->_energyPoints = 50;
 	this->_hitPoints = 100;
@@ -10,7 +10,7 @@ ScavTrap::ScavTrap() : ClapTrap()
 
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name)
 {
-	std::cout << "[ScavTrap] name constructor called\n";
+	std::cout << "[ScavTrap] " << this->_name << " constructor called\n";
 	this->_attackDamage = 20;
 	this->_energyPoints = 50;
 	this->_hitPoints = 100;
@@ -24,7 +24,7 @@ ScavTrap::ScavTrap(ScavTrap const &src) : ClapTrap(src)
 
 ScavTrap::~ScavTrap()
 {
-	std::cout << "[ScavTrap] destructor called\n";
+	std::cout << "[ScavTrap] " << this->_name << " destructor called\n";
 }
 
 ScavTrap &ScavTrap::operator=(ScavTrap const &rhs)
