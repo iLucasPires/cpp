@@ -2,7 +2,7 @@ NAME = program
 
 OBJ_DIR = obj
 
-SRCS = main.cpp Animal.cpp Dog.cpp Cat.cpp WrongAnimal.cpp WrongCat.cpp
+SRCS = main.cpp Bureaucrat.cpp
 BUILD_OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
 
 CC = c++

@@ -9,16 +9,15 @@ class Animal
 public:
 	Animal();
 	Animal(Animal const &src);
-
 	virtual ~Animal();
-
-	virtual void makeSound(void) const;
 
 	Animal &operator=(Animal const &rhs);
 
+	virtual void makeSound(void) const;
 	std::string getType(void) const;
+
 protected:
-	std::string _type;
+	std::string type;
 };
 
 #endif

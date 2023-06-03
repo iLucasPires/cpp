@@ -4,36 +4,57 @@
 #include "WrongAnimal.hpp"
 #include "WrongCat.hpp"
 
+static void printHeader(std::string str)
+{
+    std::cout << "============================================================\n"
+              << str << '\n'
+              << "============================================================\n";
+}
+
 int main(void)
 {
     {
-        const Animal *animal = new Animal();
-        const Animal *dog = new Dog();
-        const Animal *cat = new Cat();
+        printHeader("Constructors");
+        const Animal *meta = new Animal();
+        const Animal *j = new Dog();
+        const Animal *i = new Cat();
 
-        std::cout << dog->getType() << " " << std::endl;
-        std::cout << cat->getType() << " " << std::endl;
+        printHeader("Constructors Wrong Animal");
+        const WrongAnimal *metaWrong = new WrongAnimal();
+        const WrongAnimal *jWrong = new WrongCat();
 
-        cat->makeSound(); // will output the cat sound!
-        dog->makeSound();
-        animal->makeSound();
+        printHeader("Copy Constructors");
+        const Animal *jCopy = new Dog((Dog const &)*j);
+        const Animal *metaCopy = new Animal(*meta);
 
-        delete animal;
-        delete dog;
-        delete cat;
-    }
-    std::cout << "---------------------" << std::endl;
-    {
-        const WrongAnimal *animal = new WrongAnimal();
-        const WrongAnimal *cat = new WrongCat();
+        printHeader("Copy Constructors Wrong Animal");
+        const WrongAnimal *iWrongCopy = new WrongCat((WrongCat const &)*jWrong);
+        const WrongAnimal *metaWrongCopy = new WrongAnimal(*metaWrong);
 
-        std::cout << cat->getType() << " " << std::endl;
+        printHeader("Sounds");
+        j->makeSound();
+        i->makeSound();
+        meta->makeSound();
 
-        cat->makeSound(); // will output the cat sound!
-        animal->makeSound();
+        printHeader("Sounds Copy");
+        jCopy->makeSound();
+        metaCopy->makeSound();
 
-        delete animal;
-        delete cat;
+        printHeader("Sounds Wrong Animal");
+        jWrong->makeSound();
+        metaWrong->makeSound();
+
+        printHeader("Sounds Wrong Animal Copy");
+        iWrongCopy->makeSound();
+        metaWrongCopy->makeSound();
+
+        printHeader("Destructor");
+
+        delete meta;
+        delete metaWrong;
+        delete j;
+        delete jWrong;
+        delete i;
     }
 
     return 0;

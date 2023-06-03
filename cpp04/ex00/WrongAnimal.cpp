@@ -1,6 +1,6 @@
 #include "WrongAnimal.hpp"
 
-WrongAnimal::WrongAnimal() : _type("WrongAnimal")
+WrongAnimal::WrongAnimal() : type("WrongAnimal")
 {
 	std::cout << "WrongAnimal default constructor called\n";
 }
@@ -20,7 +20,7 @@ WrongAnimal &WrongAnimal::operator=(WrongAnimal const &rhs)
 {
 	if (this != &rhs)
 	{
-		this->_type = rhs._type;
+		this->type = rhs.type;
 	}
 	return *this;
 }
@@ -32,5 +32,5 @@ void WrongAnimal::makeSound(void) const
 
 std::string WrongAnimal::getType(void) const
 {
-    return this->_type;
+    return this->type;
 }

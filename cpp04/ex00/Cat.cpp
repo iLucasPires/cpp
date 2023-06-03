@@ -3,7 +3,7 @@
 Cat::Cat() : Animal()
 {
 	std::cout << "Cat default constructor called\n";
-	this->_type = "Cat";
+	this->type = "Cat";
 }
 
 Cat::Cat(const Cat &src) : Animal()
@@ -21,7 +21,7 @@ Cat &Cat::operator=(Cat const &rhs)
 {
 	if (this != &rhs)
 	{
-		this->_type = rhs._type;
+		this->type = rhs.type;
 	}
 	return *this;
 }

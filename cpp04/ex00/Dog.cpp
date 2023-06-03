@@ -3,10 +3,10 @@
 Dog::Dog() : Animal()
 {
 	std::cout << "Dog default constructor called\n";
-	this->_type = "Dog";
+	this->type = "Dog";
 }
 
-Dog::Dog(const Dog &src) : Animal()
+Dog::Dog(const Dog &src) : Animal(src)
 {
 	std::cout << "Dog copy constructor called\n";
 	*this = src;
@@ -21,7 +21,7 @@ Dog &Dog::operator=(Dog const &rhs)
 {
 	if (this != &rhs)
 	{
-		this->_type = rhs._type;
+		this->type = rhs.type;
 	}
 	return *this;
 }
