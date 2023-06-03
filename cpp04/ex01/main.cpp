@@ -2,53 +2,55 @@
 #include "Dog.hpp"
 #include "Cat.hpp"
 
+static void printHeader(std::string str)
+{
+    std::cout << "============================================================\n"
+              << str << '\n'
+              << "============================================================\n";
+}
+
 int main(void)
 {
     {
-        const Animal *j = new Dog();
-        const Animal *i = new Cat();
+        printHeader("Constructors");
+        const Animal *animals[10];
 
-        delete j; // should not create a leak
-        delete i;
-    }
-    std::cout << "---------------------\n";
-    {
-        // Create and fill an array of Animals
-        const int size = 2;
-        const Animal *animals[size];
-
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < 5; i++)
         {
-            if (i % 2 == 0)
-                animals[i] = new Dog();
-            else
-                animals[i] = new Cat();
+            animals[i] = new Dog();
         }
 
-        // Make all the animals speak
-        for (int i = 0; i < size; i++)
+        for (int i = 5; i < 10; i++)
+        {
+            animals[i] = new Cat();
+        }
+
+        printHeader("Make sound");
+        for (int i = 0; i < 10; i++)
         {
             animals[i]->makeSound();
         }
 
-        // Delete all the animals
-        for (int i = 0; i < size; i++)
+        printHeader("Ideias");
+
+        for (int i = 0; i < 5; i++)
+        {
+            std::cout << "Animal " << i << " is a " << animals[i]->getType()
+                      << " and has the idea " << ((Dog *)animals[i])->getBrain()->getIdea(0) << '\n';
+        }
+
+        for (int i = 5; i < 10; i++)
+        {
+            std::cout << "Animal " << i << " is a " << animals[i]->getType()
+                      << " and has the idea " << ((Cat *)animals[i])->getBrain()->getIdea(0) << '\n';
+        }
+
+        printHeader("Destructors");
+        for (int i = 0; i < 10; i++)
         {
             delete animals[i];
         }
     }
-    std::cout << "---------------------\n";
-    {
-        Cat *cat = new Cat();
-        std::cout << "Cat's type: " << cat->getType() << std::endl;
-        cat->makeSound();
 
-        // print cat ideas
-        for (int i = 0; i < 100; i++)
-        {
-            std::cout << "Cat's idea #" << i << ": " << cat->getBrain()->getIdea(i) << '\n';
-        }
-        delete cat;
-    }
     return 0;
 }

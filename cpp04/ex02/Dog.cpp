@@ -6,7 +6,7 @@ Dog::Dog() : AAnimal()
 
 	this->type = "Dog";
 	this->brain = new Brain();
-	this->brain->setIdeas("Get a bone");
+	this->brain->setIdeas("Dog's idea");
 }
 
 Dog::Dog(const Dog &src) : AAnimal()
@@ -32,4 +32,14 @@ Dog &Dog::operator=(Dog const &rhs)
 		*this->brain = *rhs.brain;
 	}
 	return *this;
+}
+
+void Dog::makeSound(void) const
+{
+	std::cout << "Woof woof\n";
+}
+
+Brain *Dog::getBrain(void) const
+{
+	return this->brain;
 }
