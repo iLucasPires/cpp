@@ -12,7 +12,6 @@ Cat::Cat() : AAnimal()
 Cat::Cat(const Cat &src) : AAnimal()
 {
 	std::cout << "Cat copy constructor called\n";
-
 	this->brain = new Brain();
 	*this = src;
 }
@@ -20,12 +19,12 @@ Cat::Cat(const Cat &src) : AAnimal()
 Cat::~Cat()
 {
 	std::cout << "Cat destructor called\n";
-
 	delete this->brain;
 }
 
 Cat &Cat::operator=(Cat const &rhs)
 {
+	std::cout << "Cat assignment operator called\n";
 	if (this != &rhs)
 	{
 		this->type = rhs.type;

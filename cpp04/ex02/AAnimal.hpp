@@ -7,6 +7,7 @@
 class AAnimal
 {
 public:
+	AAnimal();
 	AAnimal(AAnimal const &src);
 
 	virtual ~AAnimal() = 0;
@@ -16,7 +17,6 @@ public:
 	AAnimal &operator=(AAnimal const &rhs);
 
 protected:
-	AAnimal();
 	std::string type;
 };
 

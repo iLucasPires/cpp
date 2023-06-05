@@ -21,7 +21,7 @@ Cat &Cat::operator=(Cat const &rhs)
 {
 	if (this != &rhs)
 	{
-		this->type = rhs.type;
+		this->type = rhs.getType();
 	}
 	return *this;
 }

@@ -3,7 +3,6 @@
 Dog::Dog() : Animal()
 {
 	std::cout << "Dog default constructor called\n";
-
 	this->type = "Dog";
 	this->brain = new Brain();
 	this->brain->setIdeas("Dog's idea");
@@ -12,7 +11,6 @@ Dog::Dog() : Animal()
 Dog::Dog(const Dog &src) : Animal()
 {
 	std::cout << "Dog copy constructor called\n";
-
 	this->brain = new Brain();
 	*this = src;
 }
@@ -20,12 +18,12 @@ Dog::Dog(const Dog &src) : Animal()
 Dog::~Dog()
 {
 	std::cout << "Dog destructor called\n";
-
 	delete this->brain;
 }
 
 Dog &Dog::operator=(Dog const &rhs)
 {
+	std::cout << "Dog assignment operator called\n";
 	if (this != &rhs)
 	{
 		this->type = rhs.type;

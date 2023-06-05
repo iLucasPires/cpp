@@ -1,14 +1,14 @@
 #include "AAnimal.hpp"
 
-AAnimal::AAnimal() : type("AAnimal")
+AAnimal::AAnimal()
 {
 	std::cout << "AAnimal default constructor called\n";
 }
 
 AAnimal::AAnimal(const AAnimal &src)
 {
-	*this = src;
 	std::cout << "AAnimal copy constructor called\n";
+	*this = src;
 }
 
 AAnimal::~AAnimal()
@@ -18,6 +18,7 @@ AAnimal::~AAnimal()
 
 AAnimal &AAnimal::operator=(AAnimal const &rhs)
 {
+	std::cout << "AAnimal assignment operator called\n";
 	if (this != &rhs)
 	{
 		this->type = rhs.type;

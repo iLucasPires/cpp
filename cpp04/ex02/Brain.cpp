@@ -42,3 +42,10 @@ std::string Brain::getIdea(int index) const
 {
     return this->ideas[index];
 }
+
+std::ostream &operator<<(std::ostream &o, Brain const &rhs)
+{
+	o << rhs.getIdea(0);
+	return o;
+
+}

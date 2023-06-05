@@ -21,4 +21,6 @@ private:
 	std::string ideas[100];
 };
 
+std::ostream &operator<<(std::ostream &o, Brain const &rhs);
+
 #endif

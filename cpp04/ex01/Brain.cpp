@@ -19,7 +19,6 @@ Brain::~Brain()
 Brain &Brain::operator=(Brain const &rhs)
 {
 	std::cout << "Brain assignment operator called\n";
-
 	if (this != &rhs)
 	{
 		for (int i = 0; i < 100; i++)
@@ -40,5 +39,11 @@ void Brain::setIdeas(std::string idea)
 
 std::string Brain::getIdea(int index) const
 {
-    return this->ideas[index];
+	return this->ideas[index];
+}
+
+std::ostream &operator<<(std::ostream &o, Brain const &rhs)
+{
+	o << rhs.getIdea(0);
+	return o;
 }

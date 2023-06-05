@@ -1,6 +1,6 @@
 #include "WrongAnimal.hpp"
 
-WrongAnimal::WrongAnimal() : type("WrongAnimal")
+WrongAnimal::WrongAnimal()
 {
 	std::cout << "WrongAnimal default constructor called\n";
 }
@@ -32,5 +32,5 @@ void WrongAnimal::makeSound(void) const
 
 std::string WrongAnimal::getType(void) const
 {
-    return this->type;
+	return this->type;
 }
