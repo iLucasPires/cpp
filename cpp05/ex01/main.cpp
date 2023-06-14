@@ -50,18 +50,6 @@ int main(void) {
   Form form2("tax form", 150, 150);
   Form form3("contract", 2, 2);
 
-  printHeader("Bureaucrat incrementGrade");
-  testIncrementGrade(alex);
-  testIncrementGrade(bob);
-  testIncrementGrade(sheila);
-  testIncrementGrade(sheila);
-
-  printHeader("Bureaucrat decrementGrade");
-  testDecrementGrade(copyAlex);
-  testDecrementGrade(copyBob);
-  testDecrementGrade(copyBob);
-  testDecrementGrade(copySheila);
-
   printHeader("Sign Form");
 
   testSignForm(alex, form1);
@@ -77,19 +65,6 @@ int main(void) {
   testSignForm(sheila, form1);
   testSignForm(sheila, form2);
   testSignForm(sheila, form3);
-
-  printHeader("Bureaucrat outside the grade");
-  try {
-    Bureaucrat invalidGrade("Invalid", 0);
-  } catch (std::exception &e) {
-    std::cout << "Exception caught: \033[31m" << e.what() << "\033[0m\n";
-  }
-  printDivider();
-  try {
-    Bureaucrat invalidGrade("Invalid", 151);
-  } catch (std::exception &e) {
-    std::cout << "Exception caught: \033[31m" << e.what() << "\033[0m\n";
-  }
 
   printHeader("Form outside the grade");
   try {

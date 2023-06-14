@@ -6,7 +6,7 @@ void printHeader(std::string str) {
 }
 
 void testIncrementGrade(Bureaucrat &bureaucrat) {
-  std::cout << bureaucrat << ":";
+  std::cout << bureaucrat << " trys to increment:";
   try {
     bureaucrat.incrementGrade();
     std::cout << "\033[32m Success";
@@ -17,7 +17,7 @@ void testIncrementGrade(Bureaucrat &bureaucrat) {
 }
 
 void testDecrementGrade(Bureaucrat &bureaucrat) {
-  std::cout << bureaucrat << ":";
+  std::cout << bureaucrat << " trys to decrement:";
   try {
     bureaucrat.decrementGrade();
     std::cout << "\033[32m Success";
@@ -33,6 +33,19 @@ int main(void) {
   Bureaucrat bob("Bob", 149);
   Bureaucrat sheila("Sheila", 2);
 
+  printHeader("Bureaucrat error");
+  try {
+    Bureaucrat error("Error", 0);
+  } catch (std::exception &e) {
+    std::cout << e.what() << '\n';
+  };
+
+  try {
+    Bureaucrat error("Error", 151);
+  } catch (std::exception &e) {
+    std::cout << e.what() << '\n';
+  };
+
   printHeader("Copy constructor");
   Bureaucrat copyAlex(alex);
   Bureaucrat copyBob(bob);
@@ -44,7 +57,7 @@ int main(void) {
   testIncrementGrade(sheila);
   testIncrementGrade(sheila);
 
-  printHeader("Bureaucrat decrementGrade");
+  printHeader("Copy bureaucrat decrementGrade");
   testDecrementGrade(copyAlex);
   testDecrementGrade(copyBob);
   testDecrementGrade(copyBob);

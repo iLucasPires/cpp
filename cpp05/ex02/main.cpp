@@ -67,23 +67,10 @@ int main(void) {
   AForm *aForm2 = new RobotomyRequestForm("contract");
   AForm *aForm3 = new PresidentialPardonForm("taxes");
 
-  printHeader("Bureaucrat incrementGrade");
-  testIncrementGrade(alex);
-  testIncrementGrade(bob);
-  testIncrementGrade(sheila);
-  testIncrementGrade(sheila);
-
-  printHeader("Bureaucrat decrementGrade");
-  testDecrementGrade(copyAlex);
-  testDecrementGrade(copyBob);
-  testDecrementGrade(copyBob);
-  testDecrementGrade(copySheila);
-
   printHeader("Sign AForm");
 
   testSignAForm(alex, *aForm1);
   testSignAForm(alex, *aForm2);
-
   testSignAForm(alex, *aForm3);
 
   printDivider();
@@ -110,36 +97,6 @@ int main(void) {
   testExecuteAForm(sheila, *aForm1);
   testExecuteAForm(sheila, *aForm2);
   testExecuteAForm(sheila, *aForm3);
-
-  printHeader("Bureaucrat inside the grade");
-  try {
-    Bureaucrat invalidGrade("Invalid", 1);
-    invalidGrade.incrementGrade();
-  } catch (std::exception &e) {
-    std::cout << "Exception caught: \033[31m" << e.what() << "\033[0m\n";
-  }
-
-  printDivider();
-
-  try {
-    Bureaucrat invalidGrade("Invalid", 150);
-    invalidGrade.decrementGrade();
-  } catch (std::exception &e) {
-    std::cout << "Exception caught: \033[31m" << e.what() << "\033[0m\n";
-  }
-
-  printHeader("Bureaucrat outside the grade");
-  try {
-    Bureaucrat invalidGrade("Invalid", 0);
-  } catch (std::exception &e) {
-    std::cout << "Exception caught: \033[31m" << e.what() << "\033[0m\n";
-  }
-  printDivider();
-  try {
-    Bureaucrat invalidGrade("Invalid", 151);
-  } catch (std::exception &e) {
-    std::cout << "Exception caught: \033[31m" << e.what() << "\033[0m\n";
-  }
 
   printHeader("Destructors");
   return 0;
