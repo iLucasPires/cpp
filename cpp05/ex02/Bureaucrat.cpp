@@ -72,8 +72,8 @@ void Bureaucrat::setGrade(int grade) {
 }
 
 void Bureaucrat::executeForm(AForm const &form) {
-  std::cout << this->_name << " tries to execute" << form.getName()
-            << "\33[0m\n";
+  std::cout << '[' << this->_name << "] tries to execute"
+            << form.getName() << "\n";
   try {
     form.execute(*this);
     std::cout << "\33[32msuccessfully executed\33[0m\n";

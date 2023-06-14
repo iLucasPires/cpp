@@ -41,10 +41,14 @@ void testDecrementGrade(Bureaucrat &bureaucrat) {
 
 void testSignAForm(Bureaucrat &bureaucrat, AForm &Aform) {
   bureaucrat.signForm(Aform);
+    std::cout << '\n';
+
 }
 
 void testExecuteAForm(Bureaucrat &bureaucrat, AForm &Aform) {
   bureaucrat.executeForm(Aform);
+    std::cout << '\n';
+
 }
 
 int main(void) {
@@ -79,6 +83,7 @@ int main(void) {
 
   testSignAForm(alex, *aForm1);
   testSignAForm(alex, *aForm2);
+
   testSignAForm(alex, *aForm3);
 
   printDivider();

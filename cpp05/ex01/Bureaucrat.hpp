@@ -2,8 +2,8 @@
 #define BUREAUCRAT_HPP
 
 #include <iostream>
-#include <string>
 #include <stdexcept>
+#include <string>
 
 #define MAX_GRADE 1
 #define MIN_GRADE 150
@@ -11,40 +11,38 @@
 #include "Form.hpp"
 
 class Form;
-class Bureaucrat
-{
-public:
-	class GradeTooHighException : public std::exception
-	{
-	public:
-		virtual const char *what() const throw();
-	};
+class Bureaucrat {
+ public:
+  class GradeTooHighException : public std::exception {
+   public:
+    virtual const char *what() const throw();
+  };
 
-	class GradeTooLowException : public std::exception
-	{
-	public:
-		virtual const char *what() const throw();
-	};
+  class GradeTooLowException : public std::exception {
+   public:
+    virtual const char *what() const throw();
+  };
 
-	Bureaucrat();
-	Bureaucrat(std::string const &name, int grade);
 
-	Bureaucrat(Bureaucrat const &src);
-	Bureaucrat &operator=(Bureaucrat const &rhs);
+  Bureaucrat();
+  Bureaucrat(std::string const &name, int grade);
 
-	~Bureaucrat();
+  Bureaucrat(Bureaucrat const &src);
+  Bureaucrat &operator=(Bureaucrat const &rhs);
 
-	std::string getName() const;
-	int getGrade() const;
-	void setGrade(int grade);
+  ~Bureaucrat();
 
-	void incrementGrade();
-	void decrementGrade();
-	void signForm(Form &form);
+  std::string getName() const;
+  int getGrade() const;
+  void setGrade(int grade);
 
-private:
-	std::string const _name;
-	int _grade;
+  void incrementGrade();
+  void decrementGrade();
+  void signForm(Form &form);
+
+ private:
+  std::string const _name;
+  int _grade;
 };
 
 std::ostream &operator<<(std::ostream &out, Bureaucrat const &self);
