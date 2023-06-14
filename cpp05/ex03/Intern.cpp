@@ -10,11 +10,11 @@ Intern::Intern() {
   this->_forms[2].name = "presidential pardon";
   this->_forms[2].build = &Intern::buildPresidentialPardonForm;
 
-  std::cout << "Cosntructor called" << std::endl;
+  std::cout << "Cosntructor called\n";
 }
 
 Intern::Intern(const Intern &src) {
-  std::cout << "Copy cosntructor called" << std::endl;
+  std::cout << "Copy cosntructor called\n";
   *this = src;
 }
 

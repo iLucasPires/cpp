@@ -1,44 +1,150 @@
-#include "Bureaucrat.hpp"
 #include "AForm.hpp"
+#include "Bureaucrat.hpp"
 #include "Intern.hpp"
-#include "ShrubberyCreationForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "PresidentialPardonForm.hpp"
 
-
-static void printHeader(std::string str)
-{
-    std::cout << "============================================================\n"
-              << str
-              << "\n============================================================\n";
+void printHeader(std::string str) {
+  std::cout << "======================================== \n"
+            << str << "\n========================================\n";
 }
 
-int main(void)
-{
-    printHeader("Constructors");
+void printDivider() {
+  std::cout << "----------------------------------------\n";
+}
 
-    Bureaucrat *bureaucrat = new Bureaucrat("Bureaucrat", 134);
+void printFooter() {
+  std::cout << "________________________________________\n";
+}
 
-    AForm *form = new ShrubberyCreationForm("ShrubberyCreationForm");
-    AForm *form2 = new RobotomyRequestForm("RobotomyRequestForm");
-    AForm *form3 = new PresidentialPardonForm("PresidentialPardonForm");
+void testIncrementGrade(Bureaucrat &bureaucrat) {
+  std::cout << bureaucrat << ":";
+  try {
+    bureaucrat.incrementGrade();
+    std::cout << "\033[32m Success";
+  } catch (std::exception &e) {
+    std::cout << "\033[31m " << e.what();
+  }
+  std::cout << "\033[0m\n";
+}
 
-    printHeader("Sign Form");
-    bureaucrat->signForm(*form);
-    bureaucrat->executeForm(*form);
-    // bureaucrat->signForm(*form2);
-    // bureaucrat->signForm(*form3);
+void testDecrementGrade(Bureaucrat &bureaucrat) {
+  std::cout << bureaucrat << ":";
+  try {
+    bureaucrat.decrementGrade();
+    std::cout << "\033[32m Success";
+  } catch (std::exception &e) {
+    std::cout << "\033[31m " << e.what();
+  }
+  std::cout << "\033[0m\n";
+}
 
-    // printHeader("Execute Form");
+void testSignAForm(Bureaucrat &bureaucrat, AForm &Aform) {
+  bureaucrat.signForm(Aform);
+    std::cout << '\n';
 
-    // bureaucrat->executeForm(*form);
-    // bureaucrat->executeForm(*form2);
-    // bureaucrat->executeForm(*form3);
+}
 
-    printHeader("Destructors");
-    delete bureaucrat;
-    delete form;
-    delete form2;
-    delete form3;
+void testExecuteAForm(Bureaucrat &bureaucrat, AForm &Aform) {
+  bureaucrat.executeForm(Aform);
+    std::cout << '\n';
 
+}
+
+int main(void) {
+  printHeader("Constructors Bureaucrat");
+  Bureaucrat alex("Alex", 1);
+  Bureaucrat bob("Bob", 145);
+  Bureaucrat sheila("Sheila", 2);
+
+  printHeader("Constructors Intern");
+  Intern intern;
+
+
+  printHeader("Copy constructor Bureaucrat");
+  Bureaucrat copyAlex(alex);
+  Bureaucrat copyBob(bob);
+  Bureaucrat copySheila(sheila);
+
+
+
+  printHeader("Constructors AForm");
+  AForm *aForm1 = intern.makeForm("shrubbery creation", "home");
+  AForm *aForm2 = intern.makeForm("robotomy request", "Bender");
+  AForm *aForm3 = intern.makeForm("presidential pardon", "Bender");
+
+  printHeader("Bureaucrat incrementGrade");
+  testIncrementGrade(alex);
+  testIncrementGrade(bob);
+  testIncrementGrade(sheila);
+  testIncrementGrade(sheila);
+
+  printHeader("Bureaucrat decrementGrade");
+  testDecrementGrade(copyAlex);
+  testDecrementGrade(copyBob);
+  testDecrementGrade(copyBob);
+  testDecrementGrade(copySheila);
+
+  printHeader("Sign AForm");
+
+  testSignAForm(alex, *aForm1);
+  testSignAForm(alex, *aForm2);
+
+  testSignAForm(alex, *aForm3);
+
+  printDivider();
+  testSignAForm(bob, *aForm1);
+  testSignAForm(bob, *aForm2);
+  testSignAForm(bob, *aForm3);
+
+  printDivider();
+  testSignAForm(sheila, *aForm1);
+  testSignAForm(sheila, *aForm2);
+  testSignAForm(sheila, *aForm3);
+
+  printHeader("Execute AForm");
+  testExecuteAForm(alex, *aForm1);
+  testExecuteAForm(alex, *aForm2);
+  testExecuteAForm(alex, *aForm3);
+
+  printDivider();
+  testExecuteAForm(bob, *aForm1);
+  testExecuteAForm(bob, *aForm2);
+  testExecuteAForm(bob, *aForm3);
+
+  printDivider();
+  testExecuteAForm(sheila, *aForm1);
+  testExecuteAForm(sheila, *aForm2);
+  testExecuteAForm(sheila, *aForm3);
+
+  printHeader("Bureaucrat inside the grade");
+  try {
+    Bureaucrat invalidGrade("Invalid", 1);
+    invalidGrade.incrementGrade();
+  } catch (std::exception &e) {
+    std::cout << "Exception caught: \033[31m" << e.what() << "\033[0m\n";
+  }
+
+  printDivider();
+
+  try {
+    Bureaucrat invalidGrade("Invalid", 150);
+    invalidGrade.decrementGrade();
+  } catch (std::exception &e) {
+    std::cout << "Exception caught: \033[31m" << e.what() << "\033[0m\n";
+  }
+
+  printHeader("Bureaucrat outside the grade");
+  try {
+    Bureaucrat invalidGrade("Invalid", 0);
+  } catch (std::exception &e) {
+    std::cout << "Exception caught: \033[31m" << e.what() << "\033[0m\n";
+  }
+  printDivider();
+  try {
+    Bureaucrat invalidGrade("Invalid", 151);
+  } catch (std::exception &e) {
+    std::cout << "Exception caught: \033[31m" << e.what() << "\033[0m\n";
+  }
+
+  printHeader("Destructors");
+  return 0;
 }
