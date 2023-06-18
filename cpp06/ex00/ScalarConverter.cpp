@@ -15,112 +15,95 @@ ScalarConverter::~ScalarConverter() {
 
 ScalarConverter &ScalarConverter::operator=(ScalarConverter const &rhs) {
   std::cout << "Assignment operator called" << std::endl;
-  (void)rhs;  // to avoid unused parameter warning
+  (void)rhs;
   return *this;
+}
+
+typeState ScalarConverter::verifyInput(const std::string &str) {
+  if (str == "-inff" || str == "+inff" || str == "nanf")
+    return PSUEDOFLOAT;
+  if (str == "-inf" || str == "+inf" || str == "nan")
+    return PSUEDODOUBLE;
+
+  int length = str.length();
+
+  if (length == 1 && !IS_INT(str[0]) && IS_ASCII(str[0]))
+    return CHAR;
+
+  int index = (IS_SIGN(str[0])) ? 1 : 0;
+
+  while (index < length && IS_INT(str[index])) {
+    ++index;
+  }
+
+  if (index == length)
+    return INT;
+
+  if (str[index] == '.' && IS_INT(str[index + 1])) {
+    ++index;
+
+    while (index < length && IS_INT(str[index]))
+      ++index;
+
+    if ((str[index] == 'f' || str[index] == 'F') && index == length - 1)
+      return FLOAT;
+    if (index == length)
+      return DOUBLE;
+  }
+
+  return INVALID;
 }
 
 void ScalarConverter::convert(std::string const &str) {
   dataType data;
 
-  data.t = verifyInput(str);
-  data.p = str.find('.');
+  data.length = str.length();
+  data.type = verifyInput(str);
+  data.position = str.find('.');
+  data.input = const_cast<char *>(str.c_str());
+  data.position = (data.position == std::string::npos) ? 1 : data.length - data.position - 1;
 
-  if (data.p != std::string::npos) {
-    data.p = str.length() - data.p - 1;
-    if (data.t == FLOAT) data.p -= 1;
-  }
-   else {
-    data.p = 1;
-  }
-
-  conversion(data, str);
-  conversionPrint(data);
-}
-
-void ScalarConverter::conversion(dataType &data, std::string const &str) {
-  if (data.t == CHAR) {
-    data.c = static_cast<char>(str[0]);
-    data.i = static_cast<int>(data.c);
-    data.f = static_cast<float>(data.c);
-    data.d = static_cast<double>(data.c);
-  } else if (data.t == INT) {
-    data.i = static_cast<int>(std::atol(str.c_str()));
-    data.c = static_cast<char>(data.i);
-    data.f = static_cast<float>(data.i);
-    data.d = static_cast<double>(data.i);
-  } else if (data.t == FLOAT) {
-    data.f = static_cast<float>(std::atof(str.c_str()));
-    data.i = static_cast<int>(data.f);
-    data.d = static_cast<double>(data.f);
-    data.c = static_cast<char>(data.f);
-  } else if (data.t == DOUBLE) {
-    data.d = static_cast<double>(std::strtod(str.c_str(), NULL));
-    data.i = static_cast<int>(data.d);
-    data.f = static_cast<float>(data.d);
-    data.d = static_cast<double>(data.d);
+  switch (data.type) {
+    case CHAR: conversionChar(data); break;
+    case INT: conversionInt(data); break;
+    case FLOAT: conversionFloat(data); break;
+    case DOUBLE: conversionDouble(data); break;
   }
 }
 
-void ScalarConverter::conversionPrint(dataType &data) {
-  std::cout << "char: ";
-  if (IS_NON_DISPLAYABLE(data.c) && IS_ASCII(data.c)) {
-    std::cout << "Non displayable\n";
-  } else if (IS_CHAR(data.c)) {
-    std::cout << "'" << data.c << "'\n";
-  } else {
-    std::cout << "impossible\n";
-  }
-
-  std::cout << "int: ";
-  if (data.t != INVALID) {
-    std::cout << data.i << '\n';
-  } else {
-    std::cout << "impossible\n";
-  }
-
-  std::cout << "float: ";
-  if (data.f > std::numeric_limits<float>::max() ||
-      data.f < std::numeric_limits<float>::min()) {
-    std::cout << "impossible\n";
-  } else if (data.t != INVALID) {
-    std::cout << std::fixed << std::setprecision(data.p) << data.f << 'f'
-              << '\n';
-  }
-
-  std::cout << "double: ";
-  if (data.d > std::numeric_limits<double>::max() ||
-      data.d < std::numeric_limits<double>::min()) {
-    std::cout << "impossible\n";
-  } else if (data.t != INVALID) {
-    std::cout << std::fixed << std::setprecision(data.p) << data.d << '\n';
-  }
+void ScalarConverter::conversionChar(dataType &data) {
+  data.character = static_cast<char>(data.input[0]);
+  data.integer = static_cast<int>(data.character);
+  data.floating = static_cast<float>(data.character);
+  data.doubleing = static_cast<double>(data.character);
 }
 
-typeState ScalarConverter::verifyInput(const std::string &str) {
-  if (str == "-inff" || str == "+inff" || str == "nanf") return PSUEDOFLOAT;
-  if (str == "-inf" || str == "+inf" || str == "nan") return PSUEDODOUBLE;
+void ScalarConverter::conversionInt(dataType &data) {
+  long int temp = std::atol(data.input);
+  if (temp < std::numeric_limits<int>::min() ||
+      temp > std::numeric_limits<int>::max())
+      data.valid[INT] = false;
 
-  int index = 0;
-  int length = str.length();
+  data.integer = static_cast<int>(temp);
 
-  if (length == 1 && !IS_INT(str[0])) return CHAR;
+  data.character = static_cast<char>(data.integer);
+  if (IS_NON_DISPLAYABLE(data.character))
+    data.valid[CHAR] = false;
 
-  while (index < length) {
-    if (IS_SIGN(str[index])) ++index;
-    if (!IS_INT(str[index])) break;
-    ++index;
-  }
-  if (index == length) return INT;
+  data.floating = static_cast<float>(data.integer);
+  data.doubleing = static_cast<double>(data.integer);
+}
 
-  if (str[index] == '.' && IS_INT(str[index + 1])) {
-    ++index;
+void ScalarConverter::conversionFloat(dataType &data) {
+  data.floating = static_cast<float>(std::atof(data.input));
+  data.integer = static_cast<int>(data.floating);
+  data.doubleing = static_cast<double>(data.floating);
+  data.character = static_cast<char>(data.floating);
+}
 
-    while (index < length && IS_INT(str[index])) ++index;
-
-    if ((str[index] == 'f' || str[index] == 'F') && index == length - 1)
-      return FLOAT;
-    if (index == length) return DOUBLE;
-  }
-
-  return INVALID;
+void ScalarConverter::conversionDouble(dataType &data) {
+  data.doubleing = static_cast<double>(std::strtod(data.input, NULL));
+  data.integer = static_cast<int>(data.doubleing);
+  data.floating = static_cast<float>(data.doubleing);
+  data.character = static_cast<char>(data.doubleing);
 }
