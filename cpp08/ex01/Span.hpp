@@ -2,7 +2,6 @@
 #define SPAN_HPP
 
 #include <iostream>
-#include <string>
 #include <limits>
 #include <cmath>
 #include <set>
