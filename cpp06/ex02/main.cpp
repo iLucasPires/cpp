@@ -29,19 +29,18 @@ void identify(Base &p) {
   try {
     dynamic_cast<A &>(p);
     std::cout << 'A';
-  } catch (const std::exception &e) {
-  }
-
-  try {
-    dynamic_cast<B &>(p);
-    std::cout << 'B';
-  } catch (const std::exception &e) {
-  }
-
-  try {
-    dynamic_cast<C &>(p);
-    std::cout << 'C';
-  } catch (const std::exception &e) {
+  } catch (const std::bad_cast &e) {
+    try {
+      dynamic_cast<B &>(p);
+      std::cout << 'B';
+    } catch (const std::bad_cast &e) {
+      try {
+        dynamic_cast<C &>(p);
+        std::cout << 'C';
+      } catch (const std::bad_cast &e) {
+        std::cout << "Unknown";
+      }
+    }
   }
 }
 
