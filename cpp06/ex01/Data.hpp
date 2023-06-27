@@ -1,8 +1,8 @@
 #ifndef DATA_HPP
 #define DATA_HPP
 
-struct Data {
-
+struct Data
+{
   int number;
   std::string str;
 };

@@ -2,47 +2,44 @@
 #define SCALARCONVERTER_HPP
 
 #include <cstdlib>
-#include <iomanip>
 #include <iostream>
+#include <iomanip>
 #include <limits>
+#include <sstream>
 
-enum typeState { CHAR, INT, FLOAT, DOUBLE, PSUEDOFLOAT, PSUEDODOUBLE, INVALID };
-
-struct dataType {
-  int integer;
-  char character;
-  float floating;
-  double doubleing;
-  char *input;
-  bool valid[4] = {true, true, true, true};
-  size_t length;
-  size_t position;
-  typeState type;
+enum typeState
+{
+	CHAR,
+	INT,
+	FLOAT,
+	DOUBLE,
+	PSUEDOFLOAT,
+	PSUEDODOUBLE,
+	INVALID
 };
 
-#define IS_CHAR(c) ((c) >= 32 && (c) <= 126)
-#define IS_INT(c) ((c) >= 48 && (c) <= 57)
-#define IS_ASCII(c) ((c) >= 0 && (c) <= 127)
-#define IS_FLOAT(c) (c == 'f' || c == 'F')
-#define IS_NON_DISPLAYABLE(c) ((c) < 32 || (c) > 126)
-#define IS_SIGN(c) ((c) == '-' || (c) == '+')
+struct dataType
+{
+	int integer;
+	char character;
+	float floating;
+	double doubleing;
+	char *input;
+	size_t length;
+	size_t position;
+	typeState type;
+};
 
-class ScalarConverter {
-  public:
-    static void convert(std::string const &str);
+class ScalarConverter
+{
+public:
+	static void convert(std::string const &str);
 
-  private:
-    ScalarConverter();
-    ScalarConverter(ScalarConverter const &src);
-    ~ScalarConverter();
-    ScalarConverter &operator=(ScalarConverter const &rhs);
-
-    static typeState verifyInput(std::string const &str);
-
-    static void conversionChar(dataType &data);
-    static void conversionInt(dataType &data);
-    static void conversionFloat(dataType &data);
-    static void conversionDouble(dataType &data);
+private:
+	ScalarConverter();
+	ScalarConverter(ScalarConverter const &src);
+	~ScalarConverter();
+	ScalarConverter &operator=(ScalarConverter const &rhs);
 };
 
 #endif
