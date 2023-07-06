@@ -1,57 +1,100 @@
 #include <iostream>
 #include <Array.hpp>
+#include <string>
 
-#define MAX_VAL 750
-int main(int, char**)
+#define RED "\x1b[38;5;196m"
+#define YELLOW "\x1b[38;5;220m"
+#define BLUE "\x1b[38;5;27m"
+
+void testDefaultConstructor()
 {
-    Array<int> numbers(MAX_VAL);
-    int* mirror = new int[MAX_VAL];
-    srand(time(NULL));
-    for (int i = 0; i < MAX_VAL; i++)
+    std::cout << "============================= Test with default  ============================\n";
+    Array<int> intArray;
+    Array<std::string> stringArray;
+
+    std::cout << "intArray.size() = " << intArray.size() << std::endl;
+    std::cout << "stringArray.size() = " << stringArray.size() << std::endl;
+}
+
+void testIntArray()
+{
+    Array<int> intArray(5);
+
+    std::cout << "============================ Test with int array ============================\n";
+
+    std::cout << '[';
+    for (unsigned int i = 0; i < intArray.size(); i++)
     {
-        const int value = rand();
-        numbers[i] = value;
-        mirror[i] = value;
-    }
-    //SCOPE
-    {
-        Array<int> tmp = numbers;
-        Array<int> test(tmp);
+        intArray[i] = i;
     }
 
-    for (int i = 0; i < MAX_VAL; i++)
+    for (unsigned int i = 0; i < intArray.size(); i++)
     {
-        if (mirror[i] != numbers[i])
-        {
-            std::cerr << "didn't save the same value!!" << std::endl;
-            return 1;
-        }
+        std::cout << intArray[i] << " ";
     }
+
+    std::cout << "]\n";
+    std::cout << "intArray.size() = " << intArray.size() << std::endl;
+}
+
+void testStringArray()
+{
+    Array<std::string> stringArray(5);
+
+    std::cout << "============================ Testing string array ===========================\n";
+
+    std::cout << '[';
+    for (unsigned int i = 0; i < stringArray.size(); i++)
+    {
+        stringArray[i] = "string";
+    }
+
+    for (unsigned int i = 0; i < stringArray.size(); i++)
+    {
+        std::cout << stringArray[i] << " ";
+    }
+    std::cout << "]\n";
+
+    std::cout << "stringArray.size() = " << stringArray.size() << std::endl;
+}
+
+void testInvalidIndexOutOfRange()
+{
+    std::cout << "=================== Test with invalid index out of range ====================\n";
+
+    Array<int> intArray(5);
     try
     {
-        numbers[-2] = 0;
+        intArray[10] = 42;
     }
-    catch(const std::exception& e)
+    catch (std::exception &e)
     {
-        std::cerr << e.what() << '\n';
+        std::cout << e.what() << std::endl;
     }
+}
+
+void testInvalidIndexNegative()
+{
+    std::cout << "====================== Test with invalid index negative =====================\n";
+    Array<int> intArray(5);
+
     try
     {
-        numbers[MAX_VAL] = 0;
+        intArray[-1] = 42;
     }
-    catch(const std::exception& e)
+    catch (std::exception &e)
     {
-        std::cerr << e.what() << '\n';
+
+        std::cout << e.what() << std::endl;
     }
+}
 
-    for (int i = 0; i < MAX_VAL; i++)
-    {
-        numbers[i] = rand();
-    }
-
-
-
-
-    delete [] mirror;
+int main(int, char **)
+{
+    testDefaultConstructor();
+    testIntArray();
+    testStringArray();
+    testInvalidIndexOutOfRange();
+    testInvalidIndexNegative();
     return 0;
 }

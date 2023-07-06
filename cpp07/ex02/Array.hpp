@@ -2,6 +2,7 @@
 #define ARRAY_HPP
 
 #include <cstdlib>
+#include <iostream>
 
 template <typename T>
 class Array
@@ -11,24 +12,23 @@ private:
     T *_array;
 
 public:
-    Array<T>() : _size(0), _array(NULL){};
+    Array<T>() : _size(0), _array(NULL) {};
 
-    Array<T>(unsigned int n)
+    Array<T>(unsigned int n) : _size(n)
     {
-        _array = new T[n];
-        _size = n;
+        this->_array = new T[n];
     };
 
     Array<T>(Array<T> const &src) { *this = src; };
 
     Array<T> &operator=(Array<T> const &rhs)
     {
-        _size = rhs.size();
-        _array = new T[_size];
+        this->_size = rhs.size();
+        this->_array = new T[this->_size];
 
-        for (unsigned int i = 0; i < _size; i++)
+        for (unsigned int i = 0; i < this->_size; i++)
         {
-            _array[i] = rhs._array[i];
+            this->_array[i] = rhs._array[i];
         }
 
         return *this;
@@ -36,18 +36,18 @@ public:
 
     T &operator[](int index)
     {
-        if (index >= 0 && index < (int)_size)
+        if (index >= 0 && index < (int)this->_size)
         {
-            return _array[index];
+            return this->_array[index];
         }
         throw IndexError();
     };
 
-    ~Array<T>() { delete[] _array; };
+    ~Array<T>() { delete[] this->_array; };
 
     unsigned int size() const
     {
-        return _size;
+        return this->_size;
     };
 
     class IndexError : public std::exception
@@ -55,7 +55,7 @@ public:
     public:
         virtual const char *what() const throw()
         {
-            return "index invalide";
+            return "acessing index out of range";
         };
     };
 };
