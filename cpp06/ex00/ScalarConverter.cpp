@@ -83,7 +83,7 @@ void printDataType(const dataType &data)
     {
         if ((data.integer < std::numeric_limits<float>::min() ||
              data.integer > std::numeric_limits<float>::max()) &&
-            (data.type == FLOAT || data.type == DOUBLE))
+            (data.type == FLOAT || data.type == DOUBLE) && (data.integer > 0))
         {
             std::cout << "impossible" << std::endl;
         }

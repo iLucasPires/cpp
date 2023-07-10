@@ -3,24 +3,24 @@
 
 #include <iostream>
 #include <algorithm>
-#include <string>
+#include <stdexcept>
 
 template <typename T>
-int easyfind(T &first, int second)
+typename T::iterator easyfind(T &list, int value)
 {
-	if (first.empty())
+	if (list.empty())
 	{
-		throw std::exception();
+		throw std::runtime_error("List is empty");
 	}
 
-	typename T::iterator ptr = std::find(first.begin(), first.end(), second);
+	typename T::iterator ptr = std::find(list.begin(), list.end(), value);
 
-	if (ptr == first.end())
+	if (ptr == list.end())
 	{
-		throw std::exception();
+		throw std::out_of_range("Value not found");
 	}
 
-	return *ptr;
+	return ptr;
 }
 
 #endif

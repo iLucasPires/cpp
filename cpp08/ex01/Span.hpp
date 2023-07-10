@@ -5,15 +5,11 @@
 #include <limits>
 #include <cmath>
 #include <set>
+#include <stdexcept>
 
 class Span
 {
 	public:
-		class SpanException : public std::exception
-		{
-			public:
-				virtual const char *what() const throw();
-		};
 		Span();
 		Span(unsigned int number);
 		Span(Span const &src);
@@ -24,6 +20,7 @@ class Span
 		void addNumber(int number);
 		int shortestSpan();
 		int longestSpan();
+		void addManyNumbers(std::set<int>::iterator begin, std::set<int>::iterator end);
 
 	private:
 		unsigned int _index;

@@ -1,21 +1,12 @@
 #include "Span.hpp"
 
-Span::Span() : _index(0), _limit(10)
-{
-}
+Span::Span() : _index(0), _limit(10) {}
 
-Span::Span(unsigned int number) : _index(0), _limit(number)
-{
-}
+Span::Span(unsigned int number) : _index(0), _limit(number) {}
 
-Span::Span(const Span &src)
-{
-	*this = src;
-}
+Span::Span(const Span &src) { *this = src; }
 
-Span::~Span()
-{
-}
+Span::~Span() {}
 
 Span &Span::operator=(Span const &rhs)
 {
@@ -32,42 +23,56 @@ void Span::addNumber(int number)
 {
 	if (this->_index >= this->_limit)
 	{
-		throw SpanException();
+		throw std::out_of_range("Overflow limit");
 	}
 	this->_set.insert(number);
 	this->_index++;
 }
+
 int Span::shortestSpan()
 {
-	int span = 0;
+	if (this->_set.empty() || this->_set.size() == 1)
+	{
+		throw std::runtime_error("Set empty");
+	}
+
 	int shortestSpan = std::numeric_limits<int>::max();
 
-	for (std::set<int>::iterator it = this->_set.begin(); it != this->_set.end(); it++)
-	{
-		std::set<int>::iterator it2 = it;
-		span = std::abs(*it - *(++it2));
+	std::set<int>::iterator it = this->_set.begin();
+	std::set<int>::iterator nextIt = it;
+	++nextIt;
 
+	while (nextIt != this->_set.end())
+	{
+		int span = std::abs(*it - *nextIt);
 		if (span < shortestSpan)
 		{
 			shortestSpan = span;
 		}
+		++it;
+		++nextIt;
 	}
 
-	return (shortestSpan);
+	return shortestSpan;
 }
 
 int Span::longestSpan()
 {
-	if (this->_set.size() <= 1)
+	if (this->_set.empty())
 	{
-		throw SpanException();
+		throw std::runtime_error("Set empty");
 	}
-	int value = *(--this->_set.end()) - *this->_set.begin();
 
+	int value = *(--this->_set.end()) - *this->_set.begin();
 	return (value);
 }
 
-const char *Span::SpanException::what() const throw()
+void Span::addManyNumbers(std::set<int>::iterator begin, std::set<int>::iterator end)
 {
-	return ("SpanException");
+	unsigned int temp = this->_index + std::distance(begin, end);
+
+	if (temp > this->_limit)
+		throw std::out_of_range("Overflow limit");
+	this->_index = temp;
+	this->_set.insert(begin, end);
 }

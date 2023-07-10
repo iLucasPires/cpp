@@ -1,34 +1,26 @@
 #include "ScalarConverter.hpp"
 
-// int main(int argc, char **argv) {
-//   if (argc != 2) {
-//     std::cout << "Usage: ./convert [value]" << std::endl;
-//     return (1);
-//   }
-//   ScalarConverter::convert(argv[1]);
-//   return (0);
-// }
-
-void print_header( std::string str, char marker )
+void print_header(std::string str, char marker)
 {
-    std::cout << std::endl <<
-              std::string(20, marker) << std::endl
+    std::cout << std::endl
+              << std::string(20, marker) << std::endl
               << str
               << std::endl
               << std::string(20, marker) << std::endl;
 }
 
-void print_separator( void )
+void print_separator(void)
 {
-    std::cout << std::endl << std::string(20, '-') << std::endl;
+    std::cout << std::endl
+              << std::string(20, '-') << std::endl;
 }
 
-int    main (void)
+int main(void)
 {
-    const char*        char_tests[] = {"a", "#",  "", "-", "+","ola", NULL };
-    const char*        int_tests[] = {"214748364", "-2147483649", "42", "0", "-0", "+10", "127", "666", NULL };
-    const char*        float_tests[] = {"-2.2f", "nanf", "-inff", "+inff", "1...0f", NULL };
-    const char*        double_tests[] = {"1.54546465", "0.65454154544","4.2", "-4.2", "nan", "-inf", "+inf", "42.42", "1...0f", NULL };
+    const char *char_tests[] = {"a", "#", "", "-", "+", "ola", NULL};
+    const char *int_tests[] = {"214748364", "-2147483649", "42", "0", "-0", "+10", "127", "666", NULL};
+    const char *float_tests[] = {"-2.2f", "nanf", "-inff", "+inff", "1...0f", "0.65454154544f", "4.2f", "-4.2f", "42.42f", NULL};
+    const char *double_tests[] = {"1.54546465", "0.65454154544", "4.2", "-4.2", "nan", "-inf", "+inf", "42.42", "1...0f", NULL};
 
     print_header("CHAR", '=');
     for (int i = 0; char_tests[i]; i++)
@@ -63,4 +55,3 @@ int    main (void)
     }
     return (0);
 }
-
