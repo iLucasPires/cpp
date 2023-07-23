@@ -1,38 +1,17 @@
 #include "PmergeMe.hpp"
+#include <set>
 
 PmergeMe::PmergeMe(int const argc, char const *argv[])
 {
     this->_isEven = argc % 2 == 0 ? true : false;
     this->_fillArrayVector(argc, argv);
-    this->_fillArrayDeque(argc, argv);
-
-    this->_separateArrayDeque(argc);
     this->_separateArrayVector(argc);
-
-    this->_sortPairDescendingDeque();
-    // this->_sortPairDescendingVector();
-
-    this->_mergeSortDeque(0, this->_mDequePair.size() - 1);
-    // this->_mergeSortVector(0, this->_mVectorPair.size() - 1);
-
-    std::cout << "====================== AFTER MERGE SORT ======================" << std::endl;
-    for (size_t i = 0; i < this->_mDequePair.size(); i++)
-    {
-        std::cout << this->_mDequePair.at(i).first << " " << this->_mDequePair.at(i).second << std::endl;
-    }
-    this->_fillMainAndSecondArrayDeque();
-    // this->_fillMainAndSecondArrayVector();
-
-    this->_fillSequenceJacobsthalDeque();
-    this->_gerenatePositionsDeque();
-    this->_orderArrayDeque();
-
-    std::cout << "====================== AFTER ORDER ======================" << std::endl;
-    for (size_t i = 0; i < this->_mainArrayDeque.size(); i++)
-    {
-        std::cout << this->_mainArrayDeque.at(i) << " - ";
-    }
-    std::cout << std::endl;
+    this->_sortPairDescendingVector();
+    this->_mergeSortVector(0, this->_mVectorPair.size() - 1);
+    this->_fillMainAndSecondArrayVector();
+    this->_fillSequenceJacobsthalVector();
+    this->_gerenatePositionsVector();
+    this->_orderArrayVector();
 }
 
 int generationSequenceJacobsthal(int const n)
@@ -48,29 +27,7 @@ int generationSequenceJacobsthal(int const n)
     return generationSequenceJacobsthal(n - 1) + 2 * generationSequenceJacobsthal(n - 2);
 }
 
-int binarySearch(std::deque<int>  array, int target, int begin, int end)
-{
-	int mid;
-
-	while (begin <= end)
-	{
-		mid = begin + (end - begin) / 2;
-		if (target == array.at(mid))
-			return (mid);
-
-		if (target > array.at(mid))
-			begin = mid + 1;
-		else
-			end = mid - 1;
-	}
-	if (target > array.at(mid))
-		return (mid + 1);
-	else
-		return (mid);
-}
-
-
-/* #region vectors */
+/* #region Vectors */
 void PmergeMe::_fillArrayVector(int const argc, char const *argv[])
 {
     int valueTemp = 0;
@@ -86,8 +43,12 @@ void PmergeMe::_separateArrayVector(int const argc)
 {
     for (int i = 0; i < argc - 1; i += 2)
     {
-        this->_mVectorPair.push_back(std::make_pair(this->_mVector.at(i), this->_mVector.at(i + 1)));
+        if (i + 1 < argc)
+        {
+            this->_mVectorPair.push_back(std::make_pair(this->_mVector[i], this->_mVector[i + 1]));
+        }
     }
+
     if (this->_isEven == false && !this->_mVector.empty())
     {
         this->_lastValue = this->_mVector.back();
@@ -96,23 +57,34 @@ void PmergeMe::_separateArrayVector(int const argc)
 
 void PmergeMe::_sortPairDescendingVector()
 {
-    std::vector<std::pair<int, int> >::iterator it;
-    for (it = this->_mVectorPair.begin(); it != this->_mVectorPair.end(); ++it)
+    int size = this->_mVectorPair.size();
+    for (int i = 0; i < size; i++)
     {
-        if (it->first < it->second)
+        if (this->_mVectorPair.at(i).first < this->_mVectorPair.at(i).second)
         {
-            std::swap(it->first, it->second);
+            std::swap(this->_mVectorPair.at(i).first, this->_mVectorPair.at(i).second);
         }
     }
 }
 
-void PmergeMe::_mergeVector(std::vector<std::pair<int, int> > &m_vector, int begin, int middle, int end)
+void PmergeMe::_mergeSortVector(int begin, int end)
+{
+    if (begin < end)
+    {
+        int middle = (begin + end) / 2;
+        this->_mergeSortVector(begin, middle);
+        this->_mergeSortVector(middle + 1, end);
+        this->_mergeVector(this->_mVectorPair, begin, middle, end);
+    }
+}
+
+void PmergeMe::_mergeVector(std::vector<std::pair<int, int> > &mVector, int begin, int middle, int end)
 {
     std::vector<std::pair<int, int> > left(middle - begin + 1);
     std::vector<std::pair<int, int> > right(end - middle);
 
-    std::copy(m_vector.begin() + begin, m_vector.begin() + middle + 1, left.begin());
-    std::copy(m_vector.begin() + middle + 1, m_vector.begin() + end + 1, right.begin());
+    std::copy(mVector.begin() + begin, mVector.begin() + middle + 1, left.begin());
+    std::copy(mVector.begin() + middle + 1, mVector.begin() + end + 1, right.begin());
 
     size_t topLeft = 0;
     size_t topRight = 0;
@@ -122,12 +94,12 @@ void PmergeMe::_mergeVector(std::vector<std::pair<int, int> > &m_vector, int beg
     {
         if (left.at(topLeft).first <= right.at(topRight).first)
         {
-            m_vector.at(topMerge) = left.at(topLeft);
+            mVector.at(topMerge) = left.at(topLeft);
             topLeft++;
         }
         else
         {
-            m_vector.at(topMerge) = right.at(topRight);
+            mVector.at(topMerge) = right.at(topRight);
             topRight++;
         }
         topMerge++;
@@ -135,14 +107,14 @@ void PmergeMe::_mergeVector(std::vector<std::pair<int, int> > &m_vector, int beg
 
     while (topLeft < left.size())
     {
-        m_vector.at(topMerge) = left.at(topLeft);
+        mVector.at(topMerge) = left.at(topLeft);
         topLeft++;
         topMerge++;
     }
 
     while (topRight < right.size())
     {
-        m_vector.at(topMerge) = right.at(topRight);
+        mVector.at(topMerge) = right.at(topRight);
         topRight++;
         topMerge++;
     }
@@ -158,7 +130,69 @@ void PmergeMe::_fillMainAndSecondArrayVector()
     }
 }
 
+void PmergeMe::_fillSequenceJacobsthalVector()
+{
+    size_t index = 3;
+    size_t jacobsthalIndex;
+    size_t size = this->_secondArrayVector.size();
+    while (true)
+    {
+        jacobsthalIndex = generationSequenceJacobsthal(index);
+        if (jacobsthalIndex >= size - 1)
+            break;
+
+        this->_sequenceJacobsthalVector.push_back(jacobsthalIndex);
+        index++;
+    }
+}
+
+void PmergeMe::_gerenatePositionsVector()
+{
+    size_t lastPos = 1;
+    size_t jacobsIndex = 0;
+    for (size_t i = 0; i < this->_sequenceJacobsthalVector.size(); ++i)
+    {
+        jacobsIndex = this->_sequenceJacobsthalVector.at(i);
+        this->_positionsVector.push_back(jacobsIndex);
+
+        for (size_t pos = jacobsIndex - 1; pos > lastPos; --pos)
+        {
+            this->_positionsVector.push_back(pos);
+        }
+
+        lastPos = jacobsIndex;
+    }
+
+    for (size_t i = jacobsIndex; i  < this->_secondArrayVector.size(); ++i)
+    {
+        this->_positionsVector.push_back(i + 1);
+    }
+}
+
+void PmergeMe::_orderArrayVector()
+{
+    size_t addedCount = 0;
+    std::vector<int>::iterator insertPosition;
+    for (size_t i = 0; i < this->_positionsVector.size(); i++)
+    {
+        insertPosition = std::lower_bound(this->_mainArrayVector.begin(), \
+        this->_mainArrayVector.end(), this->_secondArrayVector[this->_positionsVector[i] - 1]);
+
+        this->_mainArrayVector.insert(insertPosition, \
+        this->_secondArrayVector[this->_positionsVector[i] - 1]);
+        addedCount++;
+    }
+
+    if (!this->_isEven)
+    {
+        insertPosition = std::lower_bound(this->_mainArrayVector.begin(), \
+        this->_mainArrayVector.end(), this->_lastValue);
+        this->_mainArrayVector.insert(insertPosition, this->_lastValue);
+    }
+}
 /* #endregion */
+
+
 
 /* #region deques */
 void PmergeMe::_fillArrayDeque(int const argc, char const *argv[])
@@ -176,17 +210,15 @@ void PmergeMe::_separateArrayDeque(int const argc)
 {
     for (int i = 0; i < argc - 1; i += 2)
     {
-        this->_mDequePair.push_back(std::make_pair(this->_mDeque.at(i), this->_mDeque.at(i + 1)));
+        if (i + 1 < argc)
+        {
+            this->_mDequePair.push_back(std::make_pair(this->_mDeque[i], this->_mDeque[i + 1]));
+        }
     }
+
     if (this->_isEven == false && !this->_mDeque.empty())
     {
         this->_lastValue = this->_mDeque.back();
-    }
-    std::cout << "====================== BEFORE SORT ======================" << std::endl;
-    std::deque<std::pair<int, int> >::iterator it;
-    for (it = this->_mDequePair.begin(); it != this->_mDequePair.end(); ++it)
-    {
-        std::cout << it->first << " " << it->second << std::endl;
     }
 }
 
@@ -199,23 +231,6 @@ void PmergeMe::_sortPairDescendingDeque()
         {
             std::swap(this->_mDequePair.at(i).first, this->_mDequePair.at(i).second);
         }
-    }
-
-    std::cout << "====================== AFTER SORT ======================" << std::endl;
-    for (int i = 0; i < size; i++)
-    {
-        std::cout << this->_mDequePair.at(i).first << " " << this->_mDequePair.at(i).second << std::endl;
-    }
-}
-
-void PmergeMe::_mergeSortVector(int begin, int end)
-{
-    if (begin < end)
-    {
-        int middle = (begin + end) / 2;
-        this->_mergeSortVector(begin, middle);
-        this->_mergeSortVector(middle + 1, end);
-        this->_mergeVector(this->_mVectorPair, begin, middle, end);
     }
 }
 
@@ -274,89 +289,76 @@ void PmergeMe::_mergeSortDeque(int begin, int end)
 
 void PmergeMe::_fillMainAndSecondArrayDeque()
 {
-    size_t i = 0;
-    while (i < this->_mDequePair.size())
+    this->_mainArrayDeque.push_back(this->_mDequePair.at(0).second);
+    for (size_t i = 0; i < this->_mDequePair.size(); i++)
     {
         this->_mainArrayDeque.push_back(this->_mDequePair.at(i).first);
         this->_secondArrayDeque.push_back(this->_mDequePair.at(i).second);
-        i++;
     }
 }
 
-
 void PmergeMe::_fillSequenceJacobsthalDeque()
 {
-   	size_t size;
-	size_t jcobstalIndex;
-	int index;
+    size_t index = 3;
+    size_t jacobsthalIndex;
+    size_t size = this->_secondArrayDeque.size();
+    while (true)
+    {
+        jacobsthalIndex = generationSequenceJacobsthal(index);
+        if (jacobsthalIndex >= size - 1)
+            break;
 
-	size = this->_secondArrayDeque.size();
-	index = 3;
-
-	while ((jcobstalIndex = generationSequenceJacobsthal(index)) < size - 1)
-	{
-		this->_sequenceJacobsthalDeque.push_back(jcobstalIndex);
-		index++;
-	}
+        this->_sequenceJacobsthalDeque.push_back(jacobsthalIndex);
+        index++;
+    }
 }
 
 void PmergeMe::_gerenatePositionsDeque()
 {
-  	size_t val;
-	size_t pos;
-	size_t lastPos;
-	size_t i;
+    size_t lastPos = 1;
+    size_t jacobsIndex = 0;
+    for (size_t i = 0; i < this->_sequenceJacobsthalDeque.size(); ++i)
+    {
+        jacobsIndex = this->_sequenceJacobsthalDeque.at(i);
+        this->_positionsDeque.push_back(jacobsIndex);
 
-	if (this->_secondArrayDeque.empty())
-		return;
-	lastPos = 1;
-	val = 1;
-	i = 0;
-	while (i < this->_sequenceJacobsthalDeque.size())
-	{
-		val = this->_sequenceJacobsthalDeque.at(i);
+        for (size_t pos = jacobsIndex - 1; pos > lastPos; --pos)
+        {
+            this->_positionsDeque.push_back(pos);
+        }
 
-		this->_positionsDeque.push_back(val);
+        lastPos = jacobsIndex;
+    }
 
-		pos = val - 1;
-		while (pos > lastPos)
-		{
-			this->_positionsDeque.push_back(pos);
-			pos--;
-		}
-		lastPos = val;
-		i++;
-	}
-	while (val++ < this->_secondArrayDeque.size())
-		this->_positionsDeque.push_back(val);
+    for (size_t i = jacobsIndex; i  < this->_secondArrayDeque.size(); ++i)
+    {
+        this->_positionsDeque.push_back(i + 1);
+    }
 }
 
 void PmergeMe::_orderArrayDeque()
 {
-    std::deque<int>::iterator it;
-	int target;
-	size_t endPos;
-	size_t addedCount = 0;
-	size_t pos;
-
-    for (it = this->_positionsDeque.begin(); it != this->_positionsDeque.end();it++)
+    size_t addedCount = 0;
+    std::deque<int>::iterator insertPosition;
+    for (size_t i = 0; i < this->_positionsDeque.size(); i++)
     {
-       target = this->_secondArrayDeque.at(*it - 1);
+        insertPosition = std::lower_bound(this->_mainArrayDeque.begin(), \
+        this->_mainArrayDeque.end(), this->_secondArrayDeque[this->_positionsDeque[i] - 1]);
 
-        endPos = *it + addedCount;
-        pos = binarySearch(this->_mainArrayDeque, target, 0, endPos);
-        this->_mainArrayDeque.insert(this->_mainArrayDeque.begin() + pos, target);
+        this->_mainArrayDeque.insert(insertPosition, \
+        this->_secondArrayDeque[this->_positionsDeque[i] - 1]);
         addedCount++;
     }
-    if (this->_isEven == false)
+
+    if (!this->_isEven)
     {
-        pos = binarySearch(this->_mainArrayDeque, this->_lastValue, 0, this->_mainArrayDeque.size() - 1);
-        this->_mainArrayDeque.insert(this->_mainArrayDeque.begin() + pos, this->_lastValue);
+        insertPosition = std::lower_bound(this->_mainArrayDeque.begin(), \
+        this->_mainArrayDeque.end(), this->_lastValue);
+        this->_mainArrayDeque.insert(insertPosition, this->_lastValue);
     }
 }
-
-
 /* #endregion */
+
 
 /* #region rule 03 */
 PmergeMe::PmergeMe(const PmergeMe &src)

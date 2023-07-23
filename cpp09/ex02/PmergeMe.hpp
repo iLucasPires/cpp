@@ -31,34 +31,27 @@ class PmergeMe
     std::vector<int> _sequenceJacobsthalVector;
 
     std::deque<int> _positionsDeque;
+    std::vector<int> _positionsVector;
+
+    void _fillArrayDeque(int const argc, char const *argv[]);
+    void _separateArrayDeque(int const argc);
+    void _sortPairDescendingDeque();
+    void _mergeSortDeque( int begin, int end);
+    void _mergeDeque(std::deque<std::pair<int, int> > &mDeque, int begin, int middle, int end);
+    void _fillMainAndSecondArrayDeque();
+    void _fillSequenceJacobsthalDeque();
+    void _gerenatePositionsDeque();
+    void _orderArrayDeque();
 
     void _fillArrayVector(int const argc, char const *argv[]);
-    void _fillArrayDeque(int const argc, char const *argv[]);
-
-    void _separateArrayDeque(int const argc);
     void _separateArrayVector(int const argc);
-
-    void _sortPairDescendingDeque();
     void _sortPairDescendingVector();
-
-    void _mergeSortDeque( int begin, int end);
     void _mergeSortVector(int begin, int end);
-
-    void _mergeDeque(std::deque<std::pair<int, int> > &mDeque, int begin, int middle, int end);
-    void _mergeVector(std::vector<std::pair<int, int> > &m_vector, int begin, int middle, int end);
-
-    void _fillMainAndSecondArrayDeque();
+    void _mergeVector(std::vector<std::pair<int, int> > &mVector, int begin, int middle, int end);
     void _fillMainAndSecondArrayVector();
-
-    void _fillSequenceJacobsthalDeque();
     void _fillSequenceJacobsthalVector();
-
-    void _gerenatePositionsDeque();
-
-
-    void _orderArrayDeque();
+    void _gerenatePositionsVector();
     void _orderArrayVector();
-
 
   public:
     PmergeMe(int const argc, char const *argv[]);
