@@ -44,6 +44,16 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "ctime": "cpp",
+        "iomanip": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp",
+        "sstream": "cpp",
+        "cerrno": "cpp",
+        "climits": "cpp",
+        "ios": "cpp",
+        "locale": "cpp",
+        "queue": "cpp"
     }
 }

@@ -5,15 +5,19 @@
 #include <deque>
 #include <vector>
 #include <iostream>
-#include <string>
 #include <algorithm>
+#include <time.h>
+#include <sys/time.h>
+
+#define MICROSECONDS 1000000.0
 
 class PmergeMe
 {
   private:
     bool _isEven;
     int _lastValue;
-    int _tempValue[2];
+    clock_t _tempDeque;
+    clock_t _tempVector;
 
     std::deque<int> _mDeque;
     std::deque<std::pair<int, int> > _mDequePair;
@@ -32,6 +36,7 @@ class PmergeMe
 
     std::deque<int> _positionsDeque;
     std::vector<int> _positionsVector;
+
 
     void _fillArrayDeque(int const argc, char const *argv[]);
     void _separateArrayDeque(int const argc);
@@ -54,11 +59,18 @@ class PmergeMe
     void _orderArrayVector();
 
   public:
+    PmergeMe();
     PmergeMe(int const argc, char const *argv[]);
     PmergeMe(const PmergeMe &src);
 
     ~PmergeMe();
     PmergeMe &operator=(PmergeMe const &rhs);
+
+    void printTime();
+    void printBeforeAndAfterDeque();
+    void printBeforeAndAfterVector();
+    void ford_johnson_with_vector(int const argc, char const *argv[]);
+    void ford_johnson_with_deque(int const argc, char const *argv[]);
 };
 
 #endif
