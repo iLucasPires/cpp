@@ -6,6 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <sstream>
 #include <time.h>
 #include <sys/time.h>
 
@@ -38,7 +39,7 @@ class PmergeMe
     std::vector<int> _positionsVector;
 
 
-    void _fillArrayDeque(int const argc, char const *argv[]);
+    bool _fillArrayDeque(int const argc, char const *argv[]);
     void _separateArrayDeque(int const argc);
     void _sortPairDescendingDeque();
     void _mergeSortDeque( int begin, int end);
@@ -48,7 +49,7 @@ class PmergeMe
     void _gerenatePositionsDeque();
     void _orderArrayDeque();
 
-    void _fillArrayVector(int const argc, char const *argv[]);
+    bool _fillArrayVector(int const argc, char const *argv[]);
     void _separateArrayVector(int const argc);
     void _sortPairDescendingVector();
     void _mergeSortVector(int begin, int end);
@@ -66,11 +67,11 @@ class PmergeMe
     ~PmergeMe();
     PmergeMe &operator=(PmergeMe const &rhs);
 
-    void printTime();
+    void printTime(int const argc);
     void printBeforeAndAfterDeque();
     void printBeforeAndAfterVector();
-    void ford_johnson_with_vector(int const argc, char const *argv[]);
-    void ford_johnson_with_deque(int const argc, char const *argv[]);
+    bool ford_johnson_with_vector(int const argc, char const *argv[]);
+    bool ford_johnson_with_deque(int const argc, char const *argv[]);
 };
 
 #endif

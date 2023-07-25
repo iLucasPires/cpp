@@ -27,12 +27,11 @@ class BitcoinExchange
     std::map<std::string, float>::iterator _it;
 
     size_t _findIndex;
-    std::ifstream _data;
     std::ifstream _input;
     std::string _line;
 
-    void _getExchangeData();
-    void _getInputData();
+    void _getExchangeData(std::ifstream &data);
+    void _getInputData(std::ifstream &input);
     float _stringToFloat(std::string &value);
     void _validateDateFormat(std::string &line);
 };

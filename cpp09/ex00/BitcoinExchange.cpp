@@ -1,20 +1,24 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange(char const *argv) : _data("data.csv"), _input(argv)
+BitcoinExchange::BitcoinExchange(char const *argv) : _findIndex(0)
 {
-    this->_findIndex = 0;
-    if (this->_data.fail() || this->_input.fail())
+    std::ifstream data("data.csv");
+    std::ifstream input(argv);
+    if (data.fail() || input.fail())
     {
         std::cout << "Error: could not open file " << argv << std::endl;
         return;
     }
-    this->_getExchangeData();
-    this->_getInputData();
+    this->_getExchangeData(data);
+    this->_getInputData(input);
+
+    data.close();
+    input.close();
 }
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &src)
 {
-    (void)src;
+    *this = src;
 }
 
 BitcoinExchange::~BitcoinExchange()
@@ -23,39 +27,49 @@ BitcoinExchange::~BitcoinExchange()
 
 BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange const &rhs)
 {
-    (void)rhs;
+    if (this != &rhs)
+    {
+        this->_findIndex = rhs._findIndex;
+        this->_aux[0] = rhs._aux[0];
+        this->_aux[1] = rhs._aux[1];
+        this->_exchange = rhs._exchange;
+        this->_it = rhs._it;
+    }
     return *this;
 }
 
-void BitcoinExchange::_getExchangeData()
+void BitcoinExchange::_getExchangeData(std::ifstream &data)
 {
-    while (std::getline(this->_data, this->_line))
+    std::string line;
+
+    while (std::getline(data, line))
     {
-        if (this->_line.empty() == false)
+        if (line.empty() == false)
         {
-            this->_findIndex = this->_line.find(",");
-            this->_aux[0] = this->_line.substr(0, this->_findIndex);
-            this->_aux[1] = this->_line.substr(this->_findIndex + 1);
+            this->_findIndex = line.find(",");
+            this->_aux[0] = line.substr(0, this->_findIndex);
+            this->_aux[1] = line.substr(this->_findIndex + 1);
             this->_exchange.insert(std::pair<std::string, float>(this->_aux[0], std::atof(this->_aux[1].c_str())));
         }
     }
 }
 
-void BitcoinExchange::_getInputData()
+void BitcoinExchange::_getInputData(std::ifstream &input)
 {
-    while (std::getline(this->_input, this->_line))
+    std::string line;
+    while (std::getline(input, line))
     {
-        if (this->_line.empty() == false)
+        if (line.empty() == false)
         {
-            this->_findIndex = this->_line.find("|");
+            this->_findIndex = line.find("|");
             if (this->_findIndex == std::string::npos)
             {
-                std::cout << "Error: bad input => " << this->_line << std::endl;
+                std::cout << "Error: bad input => " << line << std::endl;
             }
             else
             {
-                this->_aux[0] = this->_line.substr(0, this->_findIndex);
-                this->_aux[1] = this->_line.substr(this->_findIndex + 1);
+                this->_aux[0] = line.substr(0, this->_findIndex);
+                this->_aux[1] = line.substr(this->_findIndex + 1);
 
                 this->_aux[0].erase(std::remove(this->_aux[0].begin(), this->_aux[0].end(), ' '), this->_aux[0].end());
                 this->_aux[1].erase(std::remove(this->_aux[1].begin(), this->_aux[1].end(), ' '), this->_aux[1].end());
@@ -63,7 +77,10 @@ void BitcoinExchange::_getInputData()
                 {
                     this->_validateDateFormat(this->_aux[0]);
                     this->_it = this->_exchange.upper_bound(this->_aux[0]);
-                    std::cout << (*--this->_it).second * this->_stringToFloat(this->_aux[1]) << std::endl;
+                    float value = (*--this->_it).second * this->_stringToFloat(this->_aux[1]);
+
+                    std::cout << this->_it->first << " => " << this->_it->second << " = "
+                              << value << std::endl;
                 }
                 catch (std::exception &e)
                 {

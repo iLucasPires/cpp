@@ -1,8 +1,8 @@
-NAME = btc
+NAME = RPN
 
 OBJ_DIR = obj
 
-SRCS = main.cpp BitcoinExchange.cpp
+SRCS = main.cpp RPN.cpp
 BUILD_OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
 
 CC = c++

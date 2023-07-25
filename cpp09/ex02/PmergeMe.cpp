@@ -2,15 +2,16 @@
 #include <iomanip>
 #include <set>
 
-void PmergeMe::printTime()
+void PmergeMe::printTime(int const argc)
 {
-    double elapsedDeque = static_cast<double>(this->_tempDeque) / CLOCKS_PER_SEC * MICROSECONDS;
-    double elapsedVector = static_cast<double>(this->_tempVector) / CLOCKS_PER_SEC * MICROSECONDS;
+    double elapsedDeque = static_cast<double>(this->_tempDeque) / CLOCKS_PER_SEC;
+    double elapsedVector = static_cast<double>(this->_tempVector) / CLOCKS_PER_SEC;
 
+    std::cout << "Time to process a range of " << argc << " elements with [vector]: " << std::fixed
+              << std::setprecision(6) << elapsedDeque << " seconds" << std::endl;
 
-    std::cout << "Execution time with [vector]: " << std::fixed << std::setprecision(10) << elapsedDeque << " seconds" << std::endl;
-    std::cout << "Execution time with [deque]:  " << std::fixed << std::setprecision(10) << elapsedVector << " seconds" << std::endl;
-
+    std::cout << "Time to process a range of " << argc << " elements with [deque]: " << std::fixed
+              << std::setprecision(6) << elapsedVector << " seconds" << std::endl;
 }
 
 PmergeMe::PmergeMe()
@@ -19,84 +20,92 @@ PmergeMe::PmergeMe()
 
 PmergeMe::PmergeMe(int const argc, char const *argv[])
 {
-    this->ford_johnson_with_vector(argc, argv);
-    this->ford_johnson_with_deque(argc, argv);
-
-    this->printBeforeAndAfterVector();
-    this->printBeforeAndAfterDeque();
-
-
-    this->printTime();
+    if (this->ford_johnson_with_vector(argc, argv) &&
+        this->ford_johnson_with_deque(argc, argv))
+    {
+        this->printBeforeAndAfterVector();
+        this->printBeforeAndAfterDeque();
+        this->printTime(argc);
+    }
 }
 
 void PmergeMe::printBeforeAndAfterDeque()
 {
-    std::cout << "Before order with [deque]: ";
+    std::cout << "Before order with [deque]: [ ";
     for (size_t i = 0; i < this->_mDeque.size(); i++)
     {
-        std::cout << this->_mDeque[i] << " ";
+        std::cout << this->_mDeque[i] << ", ";
     }
 
-    std::cout << "\nAfter order with [deque]:  ";
+    std::cout << "]\nAfter order with [deque]:  [ ";
     for (size_t i = 0; i < this->_mainArrayDeque.size(); i++)
     {
-        std::cout << this->_mainArrayDeque[i] << " ";
+        std::cout << this->_mainArrayDeque[i] << ", ";
     }
 
-    std::cout << "\n\n==================================================\n\n";
+    std::cout << "]\n\n==================================================\n\n";
 }
 
 void PmergeMe::printBeforeAndAfterVector()
 {
-    std::cout << "Before order with [vector]: ";
+    std::cout << "Before order with [vector]: [ ";
     for (size_t i = 0; i < this->_mVector.size(); i++)
     {
-        std::cout << this->_mVector[i] << " ";
+        std::cout << this->_mVector[i] << ", ";
     }
 
-    std::cout << "\nAfter order with [vector]:  ";
+    std::cout << "]\nAfter order with [vector]:  [ ";
     for (size_t i = 0; i < this->_mainArrayVector.size(); i++)
     {
-        std::cout << this->_mainArrayVector[i] << " ";
+        std::cout << this->_mainArrayVector[i] << ", ";
     }
 
-    std::cout << "\n\n==================================================\n\n";
+    std::cout << "]\n\n==================================================\n\n";
 }
 
-void PmergeMe::ford_johnson_with_vector(int const argc, char const *argv[])
+bool PmergeMe::ford_johnson_with_vector(int const argc, char const *argv[])
 {
     clock_t start, end;
 
-    start = clock();
-    this->_isEven = argc % 2 == 0 ? true : false;
-    this->_fillArrayVector(argc, argv);
-    this->_separateArrayVector(argc);
-    this->_sortPairDescendingVector();
-    this->_mergeSortVector(0, this->_mVectorPair.size() - 1);
-    this->_fillMainAndSecondArrayVector();
-    this->_fillSequenceJacobsthalVector();
-    this->_gerenatePositionsVector();
-    this->_orderArrayVector();
-    end = clock();
-    this->_tempDeque = end - start;
+    if (this->_fillArrayVector(argc, argv))
+    {
+        start = clock();
+        this->_isEven = argc % 2 == 0 ? true : false;
+        this->_fillArrayVector(argc, argv);
+        this->_separateArrayVector(argc);
+        this->_sortPairDescendingVector();
+        this->_mergeSortVector(0, this->_mVectorPair.size() - 1);
+        this->_fillMainAndSecondArrayVector();
+        this->_fillSequenceJacobsthalVector();
+        this->_gerenatePositionsVector();
+        this->_orderArrayVector();
+        end = clock();
+        this->_tempDeque = end - start;
+        return (true);
+    }
+    return (false);
 }
 
-void PmergeMe::ford_johnson_with_deque(int const argc, char const *argv[])
+bool PmergeMe::ford_johnson_with_deque(int const argc, char const *argv[])
 {
     clock_t start, end;
 
-    start = clock();
-    this->_isEven = argc % 2 == 0 ? true : false;
-    this->_fillArrayDeque(argc, argv);
-    this->_separateArrayDeque(argc);
-    this->_sortPairDescendingDeque();
-    this->_mergeSortDeque(0, this->_mDequePair.size() - 1);
-    this->_fillMainAndSecondArrayDeque();
-    this->_fillSequenceJacobsthalDeque();
-    this->_gerenatePositionsDeque();
-    this->_orderArrayDeque();
-    end = clock();
-    this->_tempVector = end - start;
+    if (this->_fillArrayDeque(argc, argv))
+    {
+        start = clock();
+        this->_isEven = argc % 2 == 0 ? true : false;
+        this->_separateArrayDeque(argc);
+        this->_sortPairDescendingDeque();
+        this->_mergeSortDeque(0, this->_mDequePair.size() - 1);
+        this->_fillMainAndSecondArrayDeque();
+        this->_fillSequenceJacobsthalDeque();
+        this->_gerenatePositionsDeque();
+        this->_orderArrayDeque();
+        end = clock();
+        this->_tempVector = end - start;
+        return (true);
+    }
+    return (false);
 }
 
 int generationSequenceJacobsthal(int const n)
@@ -112,17 +121,31 @@ int generationSequenceJacobsthal(int const n)
     return generationSequenceJacobsthal(n - 1) + 2 * generationSequenceJacobsthal(n - 2);
 }
 
-
 /* #region deques */
-void PmergeMe::_fillArrayDeque(int const argc, char const *argv[])
+bool PmergeMe::_fillArrayDeque(int const argc, char const *argv[])
 {
     int valueTemp = 0;
-
     for (int i = 0; i < argc; i++)
     {
-        valueTemp = std::atoi(argv[i]);
+        for (int j = 0; argv[i][j] != '\0'; j++)
+        {
+            if (!isdigit(argv[i][j]))
+            {
+                std::cout << "Error: invalid input" << std::endl;
+                return (false);
+            }
+        }
+        std::stringstream ss(argv[i]);
+        ss >> valueTemp;
+        if (ss.fail() || !ss.eof())
+        {
+            std::cout << "Error: invalid input" << std::endl;
+            return (false);
+        }
+
         this->_mDeque.push_back(valueTemp);
     }
+    return (true);
 }
 
 void PmergeMe::_separateArrayDeque(int const argc)
@@ -219,33 +242,33 @@ void PmergeMe::_fillMainAndSecondArrayDeque()
 
 void PmergeMe::_fillSequenceJacobsthalDeque()
 {
-	int index = 3;
-	size_t jcobstalIndex;
-   	size_t size = this->_secondArrayDeque.size();
+    int index = 3;
+    size_t jcobstalIndex;
+    size_t size = this->_secondArrayDeque.size();
 
-	while ((jcobstalIndex = generationSequenceJacobsthal(index)) < size - 1)
-	{
-		this->_sequenceJacobsthalDeque.push_back(jcobstalIndex);
-		index++;
-	}
+    while ((jcobstalIndex = generationSequenceJacobsthal(index)) < size - 1)
+    {
+        this->_sequenceJacobsthalDeque.push_back(jcobstalIndex);
+        index++;
+    }
 }
 
 void PmergeMe::_gerenatePositionsDeque()
 {
-  	size_t jacobsIndex = 1;
-	size_t lastPos = 1;
+    size_t jacobsIndex = 1;
+    size_t lastPos = 1;
 
     for (size_t i = 0; i < this->_sequenceJacobsthalDeque.size(); ++i)
     {
-        jacobsIndex  = this->_sequenceJacobsthalDeque.at(i);
-        this->_positionsDeque.push_back(jacobsIndex );
+        jacobsIndex = this->_sequenceJacobsthalDeque.at(i);
+        this->_positionsDeque.push_back(jacobsIndex);
         for (size_t pos = jacobsIndex - 1; pos > lastPos; --pos)
         {
             this->_positionsDeque.push_back(pos);
         }
-        lastPos = jacobsIndex ;
-	}
-    for (size_t i = jacobsIndex; i  < this->_secondArrayDeque.size(); ++i)
+        lastPos = jacobsIndex;
+    }
+    for (size_t i = jacobsIndex; i < this->_secondArrayDeque.size(); ++i)
     {
         this->_positionsDeque.push_back(i + 1);
     }
@@ -257,34 +280,46 @@ void PmergeMe::_orderArrayDeque()
     std::deque<int>::iterator insertPosition;
     for (size_t i = 0; i < this->_positionsDeque.size(); i++)
     {
-        insertPosition = std::lower_bound(this->_mainArrayDeque.begin(), \
-        this->_mainArrayDeque.end(), this->_secondArrayDeque[this->_positionsDeque[i] - 1]);
+        insertPosition = std::lower_bound(this->_mainArrayDeque.begin(), this->_mainArrayDeque.end(),
+                                          this->_secondArrayDeque[this->_positionsDeque[i] - 1]);
 
-        this->_mainArrayDeque.insert(insertPosition, \
-        this->_secondArrayDeque[this->_positionsDeque[i] - 1]);
+        this->_mainArrayDeque.insert(insertPosition, this->_secondArrayDeque[this->_positionsDeque[i] - 1]);
         addedCount++;
     }
 
     if (!this->_isEven)
     {
-        insertPosition = std::lower_bound(this->_mainArrayDeque.begin(), \
-        this->_mainArrayDeque.end(), this->_lastValue);
+        insertPosition = std::lower_bound(this->_mainArrayDeque.begin(), this->_mainArrayDeque.end(), this->_lastValue);
         this->_mainArrayDeque.insert(insertPosition, this->_lastValue);
     }
 }
 /* #endregion */
 
-
 /* #region vectors */
-void PmergeMe::_fillArrayVector(int const argc, char const *argv[])
+bool PmergeMe::_fillArrayVector(int const argc, char const *argv[])
 {
     int valueTemp = 0;
 
     for (int i = 0; i < argc; i++)
     {
-        valueTemp = std::atoi(argv[i]);
+        for (int j = 0; argv[i][j] != '\0'; j++)
+        {
+            if (!isdigit(argv[i][j]))
+            {
+                std::cout << "Error: invalid input" << std::endl;
+                return (false);
+            }
+        }
+        std::stringstream ss(argv[i]);
+        ss >> valueTemp;
+        if (ss.fail() || !ss.eof())
+        {
+            std::cout << "Error: invalid input" << std::endl;
+            return (false);
+        }
         this->_mVector.push_back(valueTemp);
     }
+    return (true);
 }
 
 void PmergeMe::_separateArrayVector(int const argc)
@@ -381,33 +416,33 @@ void PmergeMe::_fillMainAndSecondArrayVector()
 
 void PmergeMe::_fillSequenceJacobsthalVector()
 {
-	int index = 3;
-	size_t jcobstalIndex;
-   	size_t size = this->_secondArrayVector.size();
+    int index = 3;
+    size_t jcobstalIndex;
+    size_t size = this->_secondArrayVector.size();
 
-	while ((jcobstalIndex = generationSequenceJacobsthal(index)) < size - 1)
-	{
-		this->_sequenceJacobsthalVector.push_back(jcobstalIndex);
-		index++;
-	}
+    while ((jcobstalIndex = generationSequenceJacobsthal(index)) < size - 1)
+    {
+        this->_sequenceJacobsthalVector.push_back(jcobstalIndex);
+        index++;
+    }
 }
 
 void PmergeMe::_gerenatePositionsVector()
 {
-  	size_t jacobsIndex = 1;
-	size_t lastPos = 1;
+    size_t jacobsIndex = 1;
+    size_t lastPos = 1;
 
     for (size_t i = 0; i < this->_sequenceJacobsthalVector.size(); ++i)
     {
-        jacobsIndex  = this->_sequenceJacobsthalVector.at(i);
-        this->_positionsVector.push_back(jacobsIndex );
+        jacobsIndex = this->_sequenceJacobsthalVector.at(i);
+        this->_positionsVector.push_back(jacobsIndex);
         for (size_t pos = jacobsIndex - 1; pos > lastPos; --pos)
         {
             this->_positionsVector.push_back(pos);
         }
-        lastPos = jacobsIndex ;
-	}
-    for (size_t i = jacobsIndex; i  < this->_secondArrayVector.size(); ++i)
+        lastPos = jacobsIndex;
+    }
+    for (size_t i = jacobsIndex; i < this->_secondArrayVector.size(); ++i)
     {
         this->_positionsVector.push_back(i + 1);
     }
@@ -419,28 +454,26 @@ void PmergeMe::_orderArrayVector()
     std::vector<int>::iterator insertPosition;
     for (size_t i = 0; i < this->_positionsVector.size(); i++)
     {
-        insertPosition = std::lower_bound(this->_mainArrayVector.begin(), \
-        this->_mainArrayVector.end(), this->_secondArrayVector[this->_positionsVector[i] - 1]);
+        insertPosition = std::lower_bound(this->_mainArrayVector.begin(), this->_mainArrayVector.end(),
+                                          this->_secondArrayVector[this->_positionsVector[i] - 1]);
 
-        this->_mainArrayVector.insert(insertPosition, \
-        this->_secondArrayVector[this->_positionsVector[i] - 1]);
+        this->_mainArrayVector.insert(insertPosition, this->_secondArrayVector[this->_positionsVector[i] - 1]);
         addedCount++;
     }
 
     if (!this->_isEven)
     {
-        insertPosition = std::lower_bound(this->_mainArrayVector.begin(), \
-        this->_mainArrayVector.end(), this->_lastValue);
+        insertPosition =
+            std::lower_bound(this->_mainArrayVector.begin(), this->_mainArrayVector.end(), this->_lastValue);
         this->_mainArrayVector.insert(insertPosition, this->_lastValue);
     }
 }
 /* #endregion */
 
-
 /* #region rule 03 */
 PmergeMe::PmergeMe(const PmergeMe &src)
 {
-    (void)src;
+    *this = src;
 }
 
 PmergeMe::~PmergeMe()
@@ -451,6 +484,22 @@ PmergeMe &PmergeMe::operator=(PmergeMe const &rhs)
 {
     if (this != &rhs)
     {
+        this->_isEven = rhs._isEven;
+        this->_lastValue = rhs._lastValue;
+        this->_tempDeque = rhs._tempDeque;
+        this->_tempVector = rhs._tempVector;
+
+        this->_mDeque = rhs._mDeque;
+        this->_mDequePair = rhs._mDequePair;
+
+        this->_mVector = rhs._mVector;
+        this->_mVectorPair = rhs._mVectorPair;
+
+        this->_mainArrayDeque = rhs._mainArrayDeque;
+        this->_secondArrayDeque = rhs._secondArrayDeque;
+
+        this->_mainArrayVector = rhs._mainArrayVector;
+        this->_secondArrayVector = rhs._secondArrayVector;
     }
     return *this;
 }
