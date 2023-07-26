@@ -1,12 +1,30 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange(char const *argv) : _findIndex(0)
+BitcoinExchange::BitcoinExchange()
 {
+    this->_findIndex = 0;
+    std::ifstream data("data.csv");
+    std::ifstream input("input.csv");
+    if (data.fail() || input.fail())
+    {
+        std::cout << "Error: could not open file data.csv or input.csv" << std::endl;
+        return;
+    }
+    this->_getExchangeData(data);
+    this->_getInputData(input);
+
+    data.close();
+    input.close();
+}
+
+BitcoinExchange::BitcoinExchange(char const *argv)
+{
+    this->_findIndex = 0;
     std::ifstream data("data.csv");
     std::ifstream input(argv);
     if (data.fail() || input.fail())
     {
-        std::cout << "Error: could not open file " << argv << std::endl;
+        std::cout << "Error: could not open file " << argv << " or data.csv" << std::endl;
         return;
     }
     this->_getExchangeData(data);

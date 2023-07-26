@@ -1,14 +1,11 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
-#include <cstdlib>
 #include <deque>
 #include <vector>
 #include <iostream>
-#include <algorithm>
 #include <sstream>
-#include <time.h>
-#include <sys/time.h>
+#include <iomanip>
 
 #define MICROSECONDS 1000000.0
 

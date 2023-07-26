@@ -2,19 +2,15 @@
 #define BITCOINEXCHANGE_HPP
 
 #include <algorithm>
-#include <cstdlib>
-#include <iomanip>
 #include <iostream>
 #include <sstream>
-
 #include <fstream>
 #include <map>
-#include <stdexcept>
-#include <string>
 
 class BitcoinExchange
 {
   public:
+    BitcoinExchange();
     BitcoinExchange(char const *argv);
     BitcoinExchange(BitcoinExchange const &src);
     ~BitcoinExchange();

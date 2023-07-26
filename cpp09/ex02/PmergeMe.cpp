@@ -1,6 +1,4 @@
 #include "PmergeMe.hpp"
-#include <iomanip>
-#include <set>
 
 void PmergeMe::printTime(int const argc)
 {
@@ -20,8 +18,7 @@ PmergeMe::PmergeMe()
 
 PmergeMe::PmergeMe(int const argc, char const *argv[])
 {
-    if (this->ford_johnson_with_vector(argc, argv) &&
-        this->ford_johnson_with_deque(argc, argv))
+    if (this->ford_johnson_with_vector(argc, argv) && this->ford_johnson_with_deque(argc, argv))
     {
         this->printBeforeAndAfterVector();
         this->printBeforeAndAfterDeque();
@@ -48,6 +45,7 @@ void PmergeMe::printBeforeAndAfterDeque()
 
 void PmergeMe::printBeforeAndAfterVector()
 {
+
     std::cout << "Before order with [vector]: [ ";
     for (size_t i = 0; i < this->_mVector.size(); i++)
     {
@@ -67,45 +65,44 @@ bool PmergeMe::ford_johnson_with_vector(int const argc, char const *argv[])
 {
     clock_t start, end;
 
-    if (this->_fillArrayVector(argc, argv))
+    start = clock();
+    if (!this->_fillArrayVector(argc, argv))
     {
-        start = clock();
-        this->_isEven = argc % 2 == 0 ? true : false;
-        this->_fillArrayVector(argc, argv);
-        this->_separateArrayVector(argc);
-        this->_sortPairDescendingVector();
-        this->_mergeSortVector(0, this->_mVectorPair.size() - 1);
-        this->_fillMainAndSecondArrayVector();
-        this->_fillSequenceJacobsthalVector();
-        this->_gerenatePositionsVector();
-        this->_orderArrayVector();
-        end = clock();
-        this->_tempDeque = end - start;
-        return (true);
+        return (false);
     }
-    return (false);
+    this->_isEven = argc % 2 == 0 ? true : false;
+    this->_separateArrayVector(argc);
+    this->_sortPairDescendingVector();
+    this->_mergeSortVector(0, this->_mVectorPair.size() - 1);
+    this->_fillMainAndSecondArrayVector();
+    this->_fillSequenceJacobsthalVector();
+    this->_gerenatePositionsVector();
+    this->_orderArrayVector();
+    end = clock();
+    this->_tempDeque = end - start;
+    return (true);
 }
 
 bool PmergeMe::ford_johnson_with_deque(int const argc, char const *argv[])
 {
     clock_t start, end;
 
-    if (this->_fillArrayDeque(argc, argv))
+    if (!this->_fillArrayDeque(argc, argv))
     {
-        start = clock();
-        this->_isEven = argc % 2 == 0 ? true : false;
-        this->_separateArrayDeque(argc);
-        this->_sortPairDescendingDeque();
-        this->_mergeSortDeque(0, this->_mDequePair.size() - 1);
-        this->_fillMainAndSecondArrayDeque();
-        this->_fillSequenceJacobsthalDeque();
-        this->_gerenatePositionsDeque();
-        this->_orderArrayDeque();
-        end = clock();
-        this->_tempVector = end - start;
-        return (true);
+        return (false);
     }
-    return (false);
+    start = clock();
+    this->_isEven = argc % 2 == 0 ? true : false;
+    this->_separateArrayDeque(argc);
+    this->_sortPairDescendingDeque();
+    this->_mergeSortDeque(0, this->_mDequePair.size() - 1);
+    this->_fillMainAndSecondArrayDeque();
+    this->_fillSequenceJacobsthalDeque();
+    this->_gerenatePositionsDeque();
+    this->_orderArrayDeque();
+    end = clock();
+    this->_tempVector = end - start;
+    return (true);
 }
 
 int generationSequenceJacobsthal(int const n)
@@ -142,7 +139,6 @@ bool PmergeMe::_fillArrayDeque(int const argc, char const *argv[])
             std::cout << "Error: invalid input" << std::endl;
             return (false);
         }
-
         this->_mDeque.push_back(valueTemp);
     }
     return (true);
@@ -299,7 +295,6 @@ void PmergeMe::_orderArrayDeque()
 bool PmergeMe::_fillArrayVector(int const argc, char const *argv[])
 {
     int valueTemp = 0;
-
     for (int i = 0; i < argc; i++)
     {
         for (int j = 0; argv[i][j] != '\0'; j++)
