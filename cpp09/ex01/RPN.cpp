@@ -1,78 +1,61 @@
 #include "RPN.hpp"
 
-RPN::RPN(const char *argv)
+RPN::RPN()
 {
-    std::string line;
-    std::istringstream iss(argv);
+}
 
-    float value;
-    float lastValues[2];
-    while (std::getline(iss, line, ' '))
+void RPN::calc(char const *argv)
+{
+    std::string line = argv;
+    float last = 0;
+    float before_last = 0;
+    line.erase(std::remove(line.begin(), line.end(), ' '), line.end());
+    for (size_t i = 0; i < line.size(); i++)
     {
-        if (line == "+" || line == "-" || line == "*" || line == "/")
+        if (line[i] == '+' || line[i] == '-' || line[i] == '*' || line[i] == '/')
         {
-            this->_getLastTwoValuesFromStack(lastValues);
-
-            if (line == "+")
-                _stack.push(lastValues[1] + lastValues[0]);
-            else if (line == "-")
-                _stack.push(lastValues[1] - lastValues[0]);
-            else if (line == "*")
-                _stack.push(lastValues[1] * lastValues[0]);
-            else if (line == "/")
+            if (this->_stack.size() < 2)
             {
-                if (lastValues[0] == 0)
+                std::cout << "Error" << std::endl;
+                return;
+            }
+            last = this->_stack.top();
+            this->_stack.pop();
+            before_last = this->_stack.top();
+            this->_stack.pop();
+
+            if (line[i] == '+')
+                this->_stack.push(before_last + last);
+            else if (line[i] == '-')
+                this->_stack.push(before_last - last);
+            else if (line[i] == '*')
+                this->_stack.push(before_last * last);
+            else if (line[i] == '/')
+            {
+                if (last == 0)
                 {
-                    std::cout << "Error: division by zero" << std::endl;
+                    std::cout << "Error" << std::endl;
                     return;
                 }
-                _stack.push(lastValues[1] / lastValues[0]);
+                this->_stack.push(before_last / last);
             }
         }
         else
         {
-            bool validNumber = true;
-            for (std::string::const_iterator it = line.begin(); it != line.end(); ++it)
+            if (!isdigit(line[i]))
             {
-                if (!isdigit(*it) && *it != '.' && *it != '-')
-                {
-                    validNumber = false;
-                    break;
-                }
-            }
-
-            if (validNumber)
-            {
-                try
-                {
-                    value = atof(line.c_str());
-                    if (value >10 || value < 0)
-                    {
-                        std::cout << "Error: invalid value" << std::endl;
-                        return;
-                    }
-
-                    _stack.push(value);
-                }
-                catch (const std::exception &e)
-                {
-                    std::cout << "Error: invalid value" << std::endl;
-                    return;
-                }
-            }
-            else
-            {
-                std::cout << "Error: invalid expression" << std::endl;
+                std::cout << "Error" << std::endl;
                 return;
             }
+            this->_stack.push(line[i] - '0');
         }
     }
-    if (_stack.size() != 1)
+    if (this->_stack.size() != 1)
     {
-        std::cout << "Error: invalid expression" << std::endl;
+        std::cout << "Error" << std::endl;
         return;
     }
-    std::cout << _stack.top() << std::endl;
+    std::cout << this->_stack.top() << std::endl;
 }
 
 RPN::RPN(RPN const &src)
@@ -86,22 +69,9 @@ RPN::~RPN()
 
 RPN &RPN::operator=(RPN const &rhs)
 {
-    (void)rhs;
-    // if (this != &rhs)
-    // {
-    // }
-    return *this;
-}
-
-void RPN::_getLastTwoValuesFromStack(float lastValues[2])
-{
-    if (this->_stack.size() < 2)
+    if (this != &rhs)
     {
-        std::cout << "Error: not enough values" << std::endl;
-        exit(1);
+        this->_stack = rhs._stack;
     }
-    lastValues[0] = this->_stack.top();
-    this->_stack.pop();
-    lastValues[1] = this->_stack.top();
-    this->_stack.pop();
+    return *this;
 }

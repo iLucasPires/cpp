@@ -7,9 +7,8 @@ int main(int argc, char const *argv[])
         std::cerr << "usage: ./rpn \"1 2 + 3 4 + *\"" << std::endl;
         return 1;
     }
-    RPN rpn(argv[1]);
-
-
+    RPN rpn;
+    rpn.calc(argv[1]);
 
     return 0;
 }
