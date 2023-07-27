@@ -95,10 +95,12 @@ void BitcoinExchange::_getInputData(std::ifstream &input)
                 {
                     this->_validateDateFormat(this->_aux[0]);
                     this->_it = this->_exchange.upper_bound(this->_aux[0]);
-                    float value = (*--this->_it).second * this->_stringToFloat(this->_aux[1]);
-
-                    std::cout << this->_it->first << " => " << this->_it->second << " = "
-                              << value << std::endl;
+                    if (this->_it != this->_exchange.begin())
+                    {
+                        this->_it--;
+                    }
+                    float value = this->_stringToFloat(this->_aux[1]) * this->_it->second;
+                    std::cout << this->_aux[0] << " " << this->_aux[1] << " = " << value << " BTC" << std::endl;
                 }
                 catch (std::exception &e)
                 {
